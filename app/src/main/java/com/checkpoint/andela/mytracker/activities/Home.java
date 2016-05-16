@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.checkpoint.andela.mytracker.R;
+import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
@@ -53,7 +54,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         } if (id == R.id.nav_places) {
 
         } if (id == R.id.nav_settings) {
-
+            ActivityLauncher.runIntent(this, Settings.class);
+            finish();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
