@@ -2,4 +2,26 @@
     <string name="app_name">My Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_home">Home</string>
+    <string name="google_app_id">mytracker-1313</string>
+
+    <string name="finding_location">Finding Location....</string>
+    <string name="connecting">Connecting....</string>
+    <string name="retrieving">retrieving....</string>
+    <string name="not_tracking">Not Tracking</string>
+    <string name="tracking_started">Tracking Started</string>
+    <string name="tracking_stopped">Tracking Stopped</string>
+
+
+    <string name="home">Home</string>
+    <string name="list_by_date">Date</string>
+    <string name="list_by_places">Places</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="save_key">save_time</string>
+    <string name="save_title">Save Time</string>
+    <string name="save_time">5 min</string>
+    <string name="title_activity_list_by_date">ListByDate</string>
+    <string name="search">Search</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address_found">Address found</string>
 </resources>
