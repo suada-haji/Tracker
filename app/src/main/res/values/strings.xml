@@ -11,6 +11,16 @@
     <string name="tracking_started">Tracking Started</string>
     <string name="tracking_stopped">Tracking Stopped</string>
 
+    <string name="in_vehicle">In a vehicle</string>
+    <string name="on_bicycle">On a bicycle</string>
+    <string name="on_foot">On foot</string>
+    <string name="running">Running</string>
+    <string name="walking">Walking</string>
+    <string name="still">Standing Still</string>
+    <string name="tilting">Tilting</string>
+    <string name="unknown">Unknown activity</string>
+    <string name="unidentifiable_activity">Unidentifiable activity: %1$d</string>
+
 
     <string name="home">Home</string>
     <string name="list_by_date">Date</string>

@@ -24,7 +24,12 @@ public class Constants {
     public static final String MINUTES = " min";
     public static final String DIALOG_TITLE = "Tracking Time";
 
+    public static final String NOTIFIER = "Notifier";
+    public static final int NOTIFICATION_ID = 1;
+    public static final String NOTIFICATION_TITLE = "Tracking in Progress";
 
+    public static final int BEEP_IN_MILLISECONDS = 1000;
+    public static final int MINUTES_TO_MILLISECONDS = 6000;
     public static final int SECONDS_TO_MINUTES = 60;
     public static final int SECONDS_TO_HOUR = 3600;
 
