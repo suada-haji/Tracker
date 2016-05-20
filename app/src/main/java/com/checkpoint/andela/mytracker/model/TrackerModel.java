@@ -1,96 +1,155 @@
 package com.checkpoint.andela.mytracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.checkpoint.andela.mytracker.helpers.Constants;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by suadahaji.
  */
-public class TrackerModel implements Parcelable {
+public class TrackerModel {
+    public enum TypeOfActivity{
+        STILL,
+        IN_VEHICLE,
+        ON_FOOT,
+        ON_BICYCLE,
+        WALKING,
+        RUNNING,
+        TILTING,
+        UNKNOWN
+    }
 
-    private Long _id;
-    private String tracker_date;
-    private String tracker_location;
-    private String tracker_activity;
-    private int tracker_duration;
+    private int tracker_id;
+
+    private TypeOfActivity activityType;
+
+    private long duration;
+
+    private DateTime tracker_date;
+
+    private String location;
+
+    private String coordinates;
+
+    public static List<TrackerModel> activities;
 
     public TrackerModel() {
-        this.tracker_date = setTracker_date();
-    }
-    public Long get_id() {
-        return _id;
+
     }
 
-    public String getTracker_date() {
-        return this.tracker_date;
+    public TrackerModel(String location, String coordinates, DateTime tracker_date, long duration) {
+        this.location = location;
+        this.coordinates = coordinates;
+        this.tracker_date = tracker_date;
+        this.duration = duration;
+        activities = new ArrayList<>();
     }
 
-    public String setTracker_date() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        long time = System.currentTimeMillis();
-        Timestamp timestamp = new Timestamp(time);
-        return dateFormat.format(timestamp);
+    public int getTracker_id() {
+        return tracker_id;
     }
 
-    public String getTracker_location() {
-        return tracker_location;
+    public void setTracker_id(int tracker_id) {
+        this.tracker_id = tracker_id;
     }
 
-    public void setTracker_location(String tracker_location) {
-        this.tracker_location = tracker_location;
+    public TypeOfActivity getActivityType() {
+        return activityType;
     }
 
-    public String getTracker_activity() {
-        return tracker_activity;
+    public void setActivityType(TypeOfActivity activityType) {
+        this.activityType = activityType;
     }
 
-    public void setTracker_activity(String tracker_activity) {
-        this.tracker_activity = tracker_activity;
+    public long getDuration() {
+        return duration;
     }
 
-    public int getTracker_duration() {
-        return tracker_duration;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
-    public void setTracker_duration(int tracker_duration) {
-        this.tracker_duration = tracker_duration;
+    public DateTime getTracker_date() {
+        return tracker_date;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setTracker_date(DateTime tracker_date) {
+        this.tracker_date = tracker_date;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this._id);
-        dest.writeString(this.tracker_date);
-        dest.writeString(this.tracker_location);
-        dest.writeString(this.tracker_activity);
-        dest.writeInt(this.tracker_duration);
+    public String getLocation() {
+        return location;
     }
 
-    public TrackerModel(Parcel in) {
-        this._id = in.readLong();
-        this.tracker_date = in.readString();
-        this.tracker_location = in.readString();
-        this.tracker_activity = in.readString();
-        this.tracker_duration = in.readInt();
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public static final Creator<TrackerModel> CREATOR = new Creator<TrackerModel>() {
-        @Override
-        public TrackerModel createFromParcel(Parcel source) {
-            return new TrackerModel(source);
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String movementTypeToString() {
+        switch (getActivityType()){
+            case STILL:
+                return Constants.STILL;
+            case IN_VEHICLE:
+                return Constants.IN_VEHICLE;
+            case WALKING:
+                return Constants.WALKING;
+            case ON_FOOT:
+                return Constants.ON_FOOT;
+            case RUNNING:
+                return Constants.RUNNING;
+            case TILTING:
+                return Constants.TILTING;
+            case UNKNOWN:
+                return Constants.UKNOWN;
+            case ON_BICYCLE:
+                return Constants.ON_BICYCLE;
+
+            default:
+                return "";
+
+        }
+    }
+    public CharSequence convertDurationToString() {
+        long sec = duration / 1000;
+        long min = sec / 60;
+        long hr = min / 60;
+        if (hr < 1){
+            return (min <= 1) ? min + " min" : min+ " mins";
         }
 
-        @Override
-        public TrackerModel[] newArray(int size) {
-            return new TrackerModel[size];
+        return ((hr <= 1) ? hr + " hr" : hr + " hrs") + ((min <= 1) ? min + " min" : min+ " mins");
+    }
+
+    public  TypeOfActivity stringToActivity(String activity) {
+        switch (activity){
+            case Constants.STILL:
+                return TypeOfActivity.STILL;
+            case Constants.IN_VEHICLE:
+                return TypeOfActivity.IN_VEHICLE;
+            case Constants.WALKING:
+                return TypeOfActivity.WALKING;
+            case Constants.ON_FOOT:
+                return TypeOfActivity.ON_FOOT;
+            case Constants.RUNNING:
+                return TypeOfActivity.RUNNING;
+            case Constants.TILTING:
+                return TypeOfActivity.TILTING;
+            case Constants.UKNOWN:
+                return TypeOfActivity.UNKNOWN;
+            default:
+                return null;
         }
-    };
+    }
+
 }

@@ -54,10 +54,32 @@
                 android:padding="15dp">
 
                 <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
-                    android:id="@+id/timer_text"
+                    android:id="@+id/hour_timer_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:00:00"
+                    android:text="00"
+                    android:textSize="54sp" />
+                <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="54sp" />
+                <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
+                    android:id="@+id/minute_timer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textSize="54sp" />
+                <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=":"
+                    android:textSize="54sp" />
+                <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
+                    android:id="@+id/second_timer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
                     android:textSize="54sp" />
             </LinearLayout>
 
@@ -107,29 +129,26 @@
                     android:layout_marginTop="150dp"
                     android:layout_toRightOf="@id/activity_marker"
                     android:fontFamily="san-serif-light"
-                    android:text="@string/not_tracking"
+                    android:text="@string/start_tracking"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/textColor"
                     android:textStyle="normal" />
 
-                <ToggleButton
-                    android:id="@+id/tracker_button"
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/home_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_media_play"
                     android:layout_alignParentRight="true"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="140dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:background="@drawable/mybutton"
-                    android:textColor="@color/white"
-                    android:textOn="stop"
-                    android:textOff="start"
-                    />
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_alignParentBottom="true"
+                    android:onClick="record"/>
+
             </RelativeLayout>
+
+
         </RelativeLayout>
 
 
