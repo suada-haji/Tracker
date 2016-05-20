@@ -142,7 +142,6 @@
                     android:layout_margin="@dimen/fab_margin"
                     android:src="@drawable/ic_media_play"
                     android:layout_alignParentRight="true"
-                    android:backgroundTint="@color/colorPrimary"
                     android:layout_alignParentBottom="true"
                     android:onClick="record"/>
 

@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -109,6 +111,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         activitiesIntentService = new ActivitiesService();
         model = new TrackerModel();
         fab = (FloatingActionButton) findViewById(R.id.home_fab);
+        fab.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
         hour = (CustomTextViewFont) findViewById(R.id.hour_timer_text);
         minute = (CustomTextViewFont) findViewById(R.id.minute_timer_text);
         second = (CustomTextViewFont) findViewById(R.id.second_timer_text);
@@ -202,7 +205,6 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     }
 
     public void stopRecording(View view) {
-        activityText.setText(R.string.start_tracking);
         changeIcon();
         isRecording = false;
         timerCountDown.cancel();
