@@ -16,7 +16,6 @@
         android:layout_marginBottom="@dimen/card_margin_horizontal"
         card_view:cardCornerRadius="0dp">
 
-
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
