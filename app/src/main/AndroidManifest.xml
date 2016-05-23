@@ -47,19 +47,23 @@
             android:label="@string/title_activity_preference_settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.Home" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Home" />
         </activity>
         <activity
             android:name=".activities.ListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.Home" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Home" />
         </activity>
+        <activity
+            android:name=".activities.abcd"
+            android:label="@string/title_activity_abcd"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

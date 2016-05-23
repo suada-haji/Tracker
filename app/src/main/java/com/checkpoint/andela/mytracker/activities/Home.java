@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.checkpoint.andela.mytracker.R;
+import com.checkpoint.andela.mytracker.helpers.ActivityCallback;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 import com.checkpoint.andela.mytracker.helpers.ActivityTypeListener;
 import com.checkpoint.andela.mytracker.helpers.Constants;
@@ -324,8 +325,9 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
                 if (hasActivityChanged(initial_activity, current_activity)) {
                     if (ifReadyToSave()) {
                         insertRecord(getTrackerModel());
-                        watch.stopWatch();
                     }
+                    resetTimer();
+
                 } else {
                     return;
                 }
@@ -334,6 +336,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
                 activityText.setText(current_activity);
             }
         }
+
 
         public boolean hasActivityChanged(String initialActivity, String newActivity) {
             return !initialActivity.equalsIgnoreCase(newActivity);
@@ -465,5 +468,16 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     public void getToastMessage(String message) {
 
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void resetTimer() {
+        watch.stopWatch();
+        try {
+            Thread.sleep(1000);
+            watch.startWatch();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
