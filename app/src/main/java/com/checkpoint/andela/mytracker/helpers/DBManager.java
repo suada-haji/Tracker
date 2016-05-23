@@ -12,14 +12,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by suadahaji.
  */
 public class DBManager {
     private TrackerDbHelper trackerDbHelper;
-    private DateTimeFormatter dateFormat = DateTimeFormat.forPattern("EEE, MMMM d, y");
     private String[] columns = {
             Constants.TABLE_COLUMN_ID,
             Constants.TABLE_COLUMN_LOCATION,
@@ -35,14 +33,13 @@ public class DBManager {
     }
 
     public long insertDataIntoDatabase(TrackerModel trackerModel) {
-        trackerDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
-        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date().toString(dateFormat));
+        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
         contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
         contentValues.put(Constants.TABLE_COLUMN_ACTIVITY, trackerModel.getActivityType().toString());
         contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
-        Log.e("Suada", "Location: " + trackerModel.getLocation() + " \n Date: " + trackerModel.getTracker_date().toString(dateFormat) + "\n  Latitude: " + trackerModel.getCoordinates() + "\n TrackerModel " + trackerModel.getActivityType().toString() + " Duration:  " + trackerModel.getDuration());
+        Log.e("Suada", "Location: " + trackerModel.getLocation() + " \nDate: " + trackerModel.getTracker_date() + "\nCoordinates : " + trackerModel.getCoordinates() + "\nTrackerModel " + trackerModel.getActivityType().toString() + "\nDuration:  " + trackerModel.getDuration());
 
 
         return trackerDbHelper.getDB().insert(Constants.TABLE_NAME, null, contentValues);
@@ -56,14 +53,14 @@ public class DBManager {
         trackerModel.setCoordinates(cursor.getString(Constants.TABLE_COORDINATES_INDEX));
         trackerModel.setDuration(Long.parseLong(cursor.getString(Constants.TABLE_COLUMN_DURATION_INDEX)));
         trackerModel.setActivityType(TrackerModel.TypeOfActivity.valueOf(cursor.getString(Constants.TABLE_ACTIVITY_INDEX)));
-        trackerModel.setTracker_date(DateTime.parse(cursor.getString(Constants.TABLE_COLUMN_DATE_INDEX), dateFormat));
+        trackerModel.setTracker_date(cursor.getString(Constants.TABLE_COLUMN_DATE_INDEX));
         return trackerModel;
     }
 
     public int updateDataInDatabase(TrackerModel trackerModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
-        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date().toString(dateFormat));
+        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
         contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
         contentValues.put(Constants.TABLE_COLUMN_ACTIVITY, trackerModel.getActivityType().toString());
         contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
@@ -72,20 +69,6 @@ public class DBManager {
         String[] arguments = { String.valueOf(trackerModel.getTracker_id())};
 
         return trackerDbHelper.getDB().update(Constants.TABLE_NAME, contentValues, condition, arguments);
-    }
-
-    public List<TrackerModel> queryDatabase (String data, String[] dataArguments, String group, String sort) {
-
-
-        Cursor cursor = trackerDbHelper.getDB().query(Constants.TABLE_NAME, columns, data, dataArguments, group, null, sort);
-
-        List<TrackerModel> activities = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            activities.add(getFromCursor(cursor));
-        }
-        cursor.close();
-
-        return activities;
     }
 
     private TrackerModel getFromDB(String data, String[] dataArguments, String sort) {
@@ -103,36 +86,38 @@ public class DBManager {
         return insertDataIntoDatabase(trackerModel);
     }
 
-    public List<TrackerModel> getById(DateTime dateTime, Selection selection) {
+
+    public ArrayList<TrackerModel> queryDatabase (String data, String[] dataArguments, String group, String sort) {
+
+
+        Cursor cursor = trackerDbHelper.getDB().query(Constants.TABLE_NAME, columns, data, dataArguments, group, null, sort);
+
+        ArrayList<TrackerModel> activities = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            activities.add(getFromCursor(cursor));
+        }
+        cursor.close();
+
+        return activities;
+    }
+
+    public TrackerModel listByID(int id) {
+        String dataSelection = Constants.TABLE_COLUMN_ID + " = ?";
+        String[] arguments = { String.valueOf(id)};
+        String orderBy = Constants.TABLE_COLUMN_ID;
+        return getFromDB(dataSelection, arguments, orderBy);
+    }
+
+    public ArrayList<TrackerModel> listByDate(String dateTime, Selection selection) {
         String dataSelection = Constants.TABLE_COLUMN_DATE + " = ?";
-        String[] dataArguments = {dateTime.toString(dateFormat)};
+        String[] dataArguments = {dateTime};
         String order = Constants.TABLE_COLUMN_ID;
         return queryDatabase(dataSelection, dataArguments, null, order);
     }
 
-    public List<TrackerModel> getByLocation(String location, Selection selection) {
-        String dataSelection = Constants.TABLE_COLUMN_LOCATION + " = ?";
-        String[] dataArguments = {location};
-        String order = Constants.TABLE_COLUMN_ID;
-        return queryDatabase(dataSelection, dataArguments, null, order);
-    }
-
-    public List<TrackerModel> getByCoordinates(String coordinates, Selection selection) {
-        String dataSelection = Constants.TABLE_COLUMN_COORDINATES + " = ?";
-        String[] dataArguments = {coordinates};
-        String order = Constants.TABLE_COLUMN_ID;
-        return queryDatabase(dataSelection, dataArguments, null, order);
-    }
-
-    public List<TrackerModel> getByActivityType(TrackerModel.TypeOfActivity activity, Selection selection) {
-        String dataSelection = Constants.TABLE_COLUMN_ACTIVITY + " = ?";
-        String[] dataArguments = {activity.toString()};
-        String order = Constants.TABLE_COLUMN_ID;
-        return queryDatabase(dataSelection, dataArguments, null, order);
-    }
-
-    public List<TrackerModel> getAll() {
-        return queryDatabase(null, null, null, null);
+    public ArrayList<TrackerModel> listAll() {
+        String order = Constants.TABLE_COLUMN_DATE;
+        return queryDatabase(null, null, null, order);
     }
 
 
