@@ -7,15 +7,14 @@
     android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/list_activity_toolbar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
-        android:padding="2dp"
-        app:titleMarginStart="20dp"
-        app:titleTextAppearance="@style/AppTheme.Toolbar.Title" />
+        app:navigationContentDescription="@string/abc_action_bar_up_description"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     <com.checkpoint.andela.mytracker.slidingTab.slider.SlidingTabLayout
         android:id="@+id/tabs"

@@ -3,7 +3,12 @@ package com.checkpoint.andela.mytracker.slidingTab.locations;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -19,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by suadahaji.
  */
-public class Movement extends ListFragment {
+public class Movement extends ListFragment implements SearchView.OnQueryTextListener {
 
     private DateListAdapter dateListAdapter;
     private DBManager dbManager;
@@ -36,6 +41,8 @@ public class Movement extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().supportInvalidateOptionsMenu();
+        setHasOptionsMenu(true);
         getList();
         initializeComponents();
     }
@@ -52,4 +59,50 @@ public class Movement extends ListFragment {
         setListAdapter(dateListAdapter);
 
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.list_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.list_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+        onQueryTextChange("");
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query)
+    {
+        final ArrayList<TrackerModel> trackerFilter = filterSearch(trackerModelArrayList, query);
+        dateListAdapter =  new DateListAdapter(getActivity(), trackerFilter);
+        setListAdapter(dateListAdapter);
+        dateListAdapter.notifyDataSetChanged();
+        return true;
+    }
+
+    private ArrayList<TrackerModel> filterSearch(ArrayList<TrackerModel> dateModelArrayList, String search){
+        search = search.toLowerCase();
+        final ArrayList<TrackerModel> filteredSearch = new ArrayList<>();
+        for (TrackerModel trackModel: dateModelArrayList) {
+            final String note_title = trackModel.getLocation().toLowerCase();
+            if (note_title.contains(search)) {
+                filteredSearch.add(trackModel);
+            }
+        }
+        return filteredSearch;
+
+    }
+
 }
