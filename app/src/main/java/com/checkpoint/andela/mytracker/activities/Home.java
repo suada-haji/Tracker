@@ -208,7 +208,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             insertRecord(getTrackerModel());
         }
         locationGoogleAPIService.disconnect();
-        ActivityLauncher.runIntent(this, ListByLocation.class);
+        ActivityLauncher.runIntent(this, ListActivity.class);
     }
 
 
@@ -431,12 +431,12 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         int id = item.getItemId();
         if (id == R.id.nav_home) {
 
-        } if (id == R.id.nav_date) {
-            ActivityLauncher.runIntent(this, ListByLocation.class);
+        } if (id == R.id.nav_list) {
+            ActivityLauncher.runIntent(this, ListActivity.class);
             finish();
 
         } if (id == R.id.nav_settings) {
-            ActivityLauncher.runIntent(this, DateListActivity.class);
+            ActivityLauncher.runIntent(this, PreferenceSettings.class);
             finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
