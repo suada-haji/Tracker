@@ -1,96 +1,130 @@
 package com.checkpoint.andela.mytracker.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.checkpoint.andela.mytracker.helpers.Constants;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by suadahaji.
  */
-public class TrackerModel implements Parcelable {
+public class TrackerModel {
 
-    private Long _id;
+
+    private int tracker_id;
+
+    private long duration;
+
     private String tracker_date;
-    private String tracker_location;
-    private String tracker_activity;
-    private int tracker_duration;
+
+    private String location;
+
+    private String coordinates;
+
+    public static List<TrackerModel> activities;
 
     public TrackerModel() {
-        this.tracker_date = setTracker_date();
+
     }
-    public Long get_id() {
-        return _id;
+
+    public TrackerModel(String location, String coordinates, String tracker_date, long duration) {
+        this.location = location;
+        this.coordinates = coordinates;
+        this.tracker_date = tracker_date;
+        this.duration = duration;
+        activities = new ArrayList<>();
+    }
+
+    public int getTracker_id() {
+        return tracker_id;
+    }
+
+    public void setTracker_id(int tracker_id) {
+        this.tracker_id = tracker_id;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public String getTracker_date() {
-        return this.tracker_date;
+        return tracker_date;
     }
 
-    public String setTracker_date() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        long time = System.currentTimeMillis();
-        Timestamp timestamp = new Timestamp(time);
-        return dateFormat.format(timestamp);
+    public void setTracker_date(String tracker_date) {
+        this.tracker_date = tracker_date;
     }
 
-    public String getTracker_location() {
-        return tracker_location;
+    public String getLocation() {
+        return location;
     }
 
-    public void setTracker_location(String tracker_location) {
-        this.tracker_location = tracker_location;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getTracker_activity() {
-        return tracker_activity;
+    public String getCoordinates() {
+        return coordinates;
     }
 
-    public void setTracker_activity(String tracker_activity) {
-        this.tracker_activity = tracker_activity;
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public int getTracker_duration() {
-        return tracker_duration;
-    }
-
-    public void setTracker_duration(int tracker_duration) {
-        this.tracker_duration = tracker_duration;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this._id);
-        dest.writeString(this.tracker_date);
-        dest.writeString(this.tracker_location);
-        dest.writeString(this.tracker_activity);
-        dest.writeInt(this.tracker_duration);
-    }
-
-    public TrackerModel(Parcel in) {
-        this._id = in.readLong();
-        this.tracker_date = in.readString();
-        this.tracker_location = in.readString();
-        this.tracker_activity = in.readString();
-        this.tracker_duration = in.readInt();
-    }
-
-    public static final Creator<TrackerModel> CREATOR = new Creator<TrackerModel>() {
-        @Override
-        public TrackerModel createFromParcel(Parcel source) {
-            return new TrackerModel(source);
+    public CharSequence convertDurationToString() {
+        long rem = duration / 1000;
+        long min = rem / 60;
+        long sec = (rem % 1000) % 60;
+        long hr = min / 60;
+        if (hr < 1 ){
+            return ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
         }
 
-        @Override
-        public TrackerModel[] newArray(int size) {
-            return new TrackerModel[size];
+        return ((hr <= 1) ? hr + " hr " : hr + " hrs ") + ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
+    }
+
+    public static Map<String, ArrayList<TrackerModel>> groupByDate(ArrayList<TrackerModel> list) {
+        Map<String, ArrayList<TrackerModel>> trackerGroup = new HashMap<>();
+        for (TrackerModel trackerModel: list) {
+            String key = trackerModel.getLocation();
+            if (!trackerGroup.containsKey(key)) {
+                ArrayList<TrackerModel> places = new ArrayList<>();
+                places.add(trackerModel);
+                trackerGroup.put(key, places);
+            }
+            else {
+                trackerGroup.get(key).add(trackerModel);
+            }
         }
-    };
+        return trackerGroup;
+    }
+
+    public ArrayList<TrackerModel> getPlacesByDate(ArrayList<TrackerModel> trackerModels) {
+        ArrayList<TrackerModel> listOfPlacesByDate = new ArrayList<>();
+        TrackerModel model;
+        Map<String, ArrayList<TrackerModel>> map;
+        map = groupByDate(trackerModels);
+        for (String key: map.keySet()) {
+            model = new TrackerModel();
+            model.setLocation(key);
+            model.setDuration(totalDuration(map.get(key)));
+            listOfPlacesByDate.add(model);
+        }
+        return listOfPlacesByDate;
+    }
+
+    public long totalDuration(ArrayList<TrackerModel> trackerModels) {
+        long value = 0;
+        for (TrackerModel model: trackerModels) {
+            value += model.getDuration();
+        }
+        return value;
+    }
+
 }

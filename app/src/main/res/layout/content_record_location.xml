@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.ListByLocation"
+    tools:showIn="@layout/activity_record_location">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/head_date_text"
+        android:text="Today"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:fontFamily="san-serif-light"
+        android:padding="@dimen/activity_vertical_margin"
+        style="?android:attr/listSeparatorTextViewStyle"
+        />
+
+    <ListView
+        android:layout_below="@id/head_date_text"
+        android:id="@+id/listview_by_date_note"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="false">
+    </ListView>
+   <!-- <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/head_date_text"
+        android:id="@+id/list_date_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+-->
+
+</RelativeLayout>
