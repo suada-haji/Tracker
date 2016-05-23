@@ -39,8 +39,4 @@ public class TrackerDbHelper extends SQLiteOpenHelper {
     public SQLiteDatabase getDB() {
         return writeDatabase;
     }
-
-    public void setWriteDatabase(SQLiteDatabase database) {
-        this.writeDatabase = database;
-    }
 }
