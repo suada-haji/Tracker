@@ -7,9 +7,6 @@ import android.util.Log;
 
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 
@@ -18,6 +15,7 @@ import java.util.ArrayList;
  */
 public class DBManager {
     private TrackerDbHelper trackerDbHelper;
+    private Long duration;
     private String[] columns = {
             Constants.TABLE_COLUMN_ID,
             Constants.TABLE_COLUMN_LOCATION,
@@ -32,18 +30,42 @@ public class DBManager {
         this.trackerDbHelper = trackerDbHelper;
     }
 
-    public long insertDataIntoDatabase(TrackerModel trackerModel) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
-        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
-        contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
-        contentValues.put(Constants.TABLE_COLUMN_ACTIVITY, trackerModel.getActivityType().toString());
-        contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
-        Log.e("Suada", "Location: " + trackerModel.getLocation() + " \nDate: " + trackerModel.getTracker_date() + "\nCoordinates : " + trackerModel.getCoordinates() + "\nTrackerModel " + trackerModel.getActivityType().toString() + "\nDuration:  " + trackerModel.getDuration());
-
-
-        return trackerDbHelper.getDB().insert(Constants.TABLE_NAME, null, contentValues);
+    public void insertDataIntoDatabase(TrackerModel trackerModel) {
+        if (!hasLocationInDB(trackerModel)) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
+            contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
+            contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
+            contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
+            Log.e("Suada", "Location: " + trackerModel.getLocation() + " \nDate: " + trackerModel.getTracker_date() + "\nCoordinates : " + trackerModel.getCoordinates() + "\nTrackerModel " + "\nDuration:  " + trackerModel.getDuration());
+            trackerDbHelper.getDB().insert(Constants.TABLE_NAME, null, contentValues);
+        } else {
+            updateDataInDatabase(trackerModel.getLocation(), trackerModel.getDuration(),trackerModel.getTracker_date());
         }
+    }
+
+    private boolean hasLocationInDB(TrackerModel trackerModel) {
+        String dbQuery = "SELECT * FROM " + Constants.TABLE_NAME + " WHERE " +
+                Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "' AND " +
+                Constants.TABLE_COLUMN_DATE + " = '" + trackerModel.getTracker_date() + "'";
+        Cursor cursor = trackerDbHelper.getDB().rawQuery(dbQuery, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            duration = cursor.getLong(cursor.getColumnIndex(Constants.TABLE_COLUMN_DURATION));
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
+
+    private void updateDataInDatabase(String location, Long tracker_duration, String date) {
+        long totalDuration = tracker_duration + duration;
+        String dbQuery = "UPDATE " + Constants.TABLE_NAME + " SET " + Constants.TABLE_COLUMN_DURATION + " = " + totalDuration +
+                " WHERE " +Constants.TABLE_COLUMN_LOCATION + " = '" + location + "' AND " +
+                Constants.TABLE_COLUMN_DATE + " = '" + date + "'";
+        trackerDbHelper.getDB().execSQL(dbQuery);
+    }
 
     private TrackerModel getFromCursor(Cursor cursor) {
         TrackerModel trackerModel = new TrackerModel();
@@ -52,23 +74,8 @@ public class DBManager {
         trackerModel.setLocation(cursor.getString(Constants.TABLE_COLUMN_LOCATION_INDEX));
         trackerModel.setCoordinates(cursor.getString(Constants.TABLE_COORDINATES_INDEX));
         trackerModel.setDuration(Long.parseLong(cursor.getString(Constants.TABLE_COLUMN_DURATION_INDEX)));
-        trackerModel.setActivityType(TrackerModel.TypeOfActivity.valueOf(cursor.getString(Constants.TABLE_ACTIVITY_INDEX)));
         trackerModel.setTracker_date(cursor.getString(Constants.TABLE_COLUMN_DATE_INDEX));
         return trackerModel;
-    }
-
-    public int updateDataInDatabase(TrackerModel trackerModel) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
-        contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
-        contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
-        contentValues.put(Constants.TABLE_COLUMN_ACTIVITY, trackerModel.getActivityType().toString());
-        contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
-
-        String condition = Constants.TABLE_COLUMN_ID + " = ?";
-        String[] arguments = { String.valueOf(trackerModel.getTracker_id())};
-
-        return trackerDbHelper.getDB().update(Constants.TABLE_NAME, contentValues, condition, arguments);
     }
 
     private TrackerModel getFromDB(String data, String[] dataArguments, String sort) {
@@ -82,10 +89,9 @@ public class DBManager {
         return trackerModel;
     }
 
-    public long saveToDB(TrackerModel trackerModel) {
-        return insertDataIntoDatabase(trackerModel);
+    public void saveToDB(TrackerModel trackerModel) {
+         insertDataIntoDatabase(trackerModel);
     }
-
 
     public ArrayList<TrackerModel> queryDatabase (String data, String[] dataArguments, String group, String sort) {
 
@@ -119,7 +125,4 @@ public class DBManager {
         String order = Constants.TABLE_COLUMN_DATE;
         return queryDatabase(null, null, null, order);
     }
-
-
-
 }

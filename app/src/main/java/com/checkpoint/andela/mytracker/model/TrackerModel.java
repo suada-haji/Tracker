@@ -2,33 +2,22 @@ package com.checkpoint.andela.mytracker.model;
 
 import com.checkpoint.andela.mytracker.helpers.Constants;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by suadahaji.
  */
 public class TrackerModel {
-    public enum TypeOfActivity{
-        STILL,
-        IN_VEHICLE,
-        ON_FOOT,
-        ON_BICYCLE,
-        WALKING,
-        RUNNING,
-        TILTING,
-        UNKNOWN
-    }
+
 
     private int tracker_id;
 
-    private TypeOfActivity activityType;
-
     private long duration;
 
-    private DateTime tracker_date;
+    private String tracker_date;
 
     private String location;
 
@@ -40,7 +29,7 @@ public class TrackerModel {
 
     }
 
-    public TrackerModel(String location, String coordinates, DateTime tracker_date, long duration) {
+    public TrackerModel(String location, String coordinates, String tracker_date, long duration) {
         this.location = location;
         this.coordinates = coordinates;
         this.tracker_date = tracker_date;
@@ -56,14 +45,6 @@ public class TrackerModel {
         this.tracker_id = tracker_id;
     }
 
-    public TypeOfActivity getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(TypeOfActivity activityType) {
-        this.activityType = activityType;
-    }
-
     public long getDuration() {
         return duration;
     }
@@ -72,11 +53,11 @@ public class TrackerModel {
         this.duration = duration;
     }
 
-    public DateTime getTracker_date() {
+    public String getTracker_date() {
         return tracker_date;
     }
 
-    public void setTracker_date(DateTime tracker_date) {
+    public void setTracker_date(String tracker_date) {
         this.tracker_date = tracker_date;
     }
 
@@ -96,60 +77,54 @@ public class TrackerModel {
         this.coordinates = coordinates;
     }
 
-    public String movementTypeToString() {
-        switch (getActivityType()){
-            case STILL:
-                return Constants.STILL;
-            case IN_VEHICLE:
-                return Constants.IN_VEHICLE;
-            case WALKING:
-                return Constants.WALKING;
-            case ON_FOOT:
-                return Constants.ON_FOOT;
-            case RUNNING:
-                return Constants.RUNNING;
-            case TILTING:
-                return Constants.TILTING;
-            case UNKNOWN:
-                return Constants.UKNOWN;
-            case ON_BICYCLE:
-                return Constants.ON_BICYCLE;
-
-            default:
-                return "";
-
-        }
-    }
     public CharSequence convertDurationToString() {
-        long sec = duration / 1000;
-        long min = sec / 60;
+        long rem = duration / 1000;
+        long min = rem / 60;
+        long sec = (rem % 1000) % 60;
         long hr = min / 60;
-        if (hr < 1){
-            return (min <= 1) ? min + " min" : min+ " mins";
+        if (hr < 1 ){
+            return ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
         }
 
-        return ((hr <= 1) ? hr + " hr" : hr + " hrs") + ((min <= 1) ? min + " min" : min+ " mins");
+        return ((hr <= 1) ? hr + " hr " : hr + " hrs ") + ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
     }
 
-    public  TypeOfActivity stringToActivity(String activity) {
-        switch (activity){
-            case Constants.STILL:
-                return TypeOfActivity.STILL;
-            case Constants.IN_VEHICLE:
-                return TypeOfActivity.IN_VEHICLE;
-            case Constants.WALKING:
-                return TypeOfActivity.WALKING;
-            case Constants.ON_FOOT:
-                return TypeOfActivity.ON_FOOT;
-            case Constants.RUNNING:
-                return TypeOfActivity.RUNNING;
-            case Constants.TILTING:
-                return TypeOfActivity.TILTING;
-            case Constants.UKNOWN:
-                return TypeOfActivity.UNKNOWN;
-            default:
-                return null;
+    public static Map<String, ArrayList<TrackerModel>> groupByDate(ArrayList<TrackerModel> list) {
+        Map<String, ArrayList<TrackerModel>> trackerGroup = new HashMap<>();
+        for (TrackerModel trackerModel: list) {
+            String key = trackerModel.getLocation();
+            if (!trackerGroup.containsKey(key)) {
+                ArrayList<TrackerModel> places = new ArrayList<>();
+                places.add(trackerModel);
+                trackerGroup.put(key, places);
+            }
+            else {
+                trackerGroup.get(key).add(trackerModel);
+            }
         }
+        return trackerGroup;
+    }
+
+    public ArrayList<TrackerModel> getPlacesByDate(ArrayList<TrackerModel> trackerModels) {
+        ArrayList<TrackerModel> listOfPlacesByDate = new ArrayList<>();
+        TrackerModel model;
+        Map<String, ArrayList<TrackerModel>> map;
+        map = groupByDate(trackerModels);
+        for (String key: map.keySet()) {
+            model = new TrackerModel();
+            model.setLocation(key);
+            model.setDuration(totalDuration(map.get(key)));
+            listOfPlacesByDate.add(model);
+        }
+        return listOfPlacesByDate;
+    }
+
+    public long totalDuration(ArrayList<TrackerModel> trackerModels) {
+        long value = 0;
+        for (TrackerModel model: trackerModels) {
+            value += model.getDuration();
+        }
+        return value;
     }
 
 }

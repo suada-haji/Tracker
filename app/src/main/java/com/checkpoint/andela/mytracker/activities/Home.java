@@ -5,9 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -43,7 +41,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.DetectedActivity;
 
-import org.joda.time.DateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Home extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener, ResultCallback<Status> {
 
@@ -76,6 +75,8 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     private String location;
     private long elapsedDuration;
     private String activity;
+    private Date date;
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +88,9 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             elapsedDuration = savedInstanceState.getLong(Constants.ELAPSED_TIME);
             initial_activity = savedInstanceState.getString(Constants.START_ACTIVITY);
             current_activity = savedInstanceState.getString(Constants._ACTIVITY);
-
         }
         initializeComponents();
-
         initializeValues();
-
     }
 
     public void initializeComponents() {
@@ -118,7 +116,8 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         activity = "";
         activityText = (TextView) findViewById(R.id.activity_text);
         setActivityTextChange();
-
+        simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy");
+        date = new Date();
         current_activity = activityText.getText().toString().trim();
         locationText = (TextView) findViewById(R.id.location_text);
         setLocationTextChange();
@@ -166,10 +165,6 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             @Override
             public void afterTextChanged(Editable s) {
                 activity = activityText.getText().toString();
-                if (activityText.equals(R.string.connecting)) {
-
-                }
-
             }
         });
     }
@@ -213,7 +208,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             insertRecord(getTrackerModel());
         }
         locationGoogleAPIService.disconnect();
-        ActivityLauncher.runIntent(this, Settings.class);
+        ActivityLauncher.runIntent(this, ListByLocation.class);
     }
 
 
@@ -409,8 +404,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         model.setLocation(location);
         model.setCoordinates(locationGoogleAPIService.getCoordinates());
         model.setDuration(elapsedDuration);
-        model.setActivityType(model.stringToActivity(current_activity));
-        model.setTracker_date(DateTime.now());
+        model.setTracker_date(simpleDateFormat.format(date));
         return model;
     }
 
@@ -431,16 +425,6 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         current_activity = savedInstanceState.getString(Constants._ACTIVITY);
     }
 
-    private void nextActivity(Class type) {
-        ActivityLauncher.runIntent(this, type);
-    }
-
-    public void nextActivitywithResult(Class type) {
-        Intent intent = new Intent(this, type);
-        startActivityForResult(intent, 1);
-    }
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -448,11 +432,11 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         if (id == R.id.nav_home) {
 
         } if (id == R.id.nav_date) {
-
-        } if (id == R.id.nav_places) {
+            ActivityLauncher.runIntent(this, ListByLocation.class);
+            finish();
 
         } if (id == R.id.nav_settings) {
-            ActivityLauncher.runIntent(this, Settings.class);
+            ActivityLauncher.runIntent(this, DateListActivity.class);
             finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);

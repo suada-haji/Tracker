@@ -12,8 +12,6 @@ import android.support.v7.app.AlertDialog;
 
 import com.checkpoint.andela.mytracker.R;
 
-import org.joda.time.DateTime;
-
 /**
  * Created by suadahaji.
  */
@@ -118,12 +116,4 @@ public class Setting {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-    public static boolean checkCurrentDate(DateTime dateTime, DateTime currentDay) {
-        return dateTime.getYear() == currentDay.getYear() && dateTime.getMonthOfYear() == currentDay.getMonthOfYear() && dateTime.getDayOfMonth() == currentDay.getDayOfMonth();
-    }
-
-
-
-
 }
