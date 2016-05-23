@@ -177,12 +177,12 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     }
 
     public void startRecording(View view) {
-        if (!settings.checkOnline()) {
-            settings.requestConnectivity();
-            return;
-        }
         if (!settings.checkGPSAvailabilty()) {
             settings.requestGPSSettings();
+            return;
+        }
+        if (!settings.checkOnline()) {
+            settings.requestConnectivity();
             return;
         }
         if (!locationGoogleAPIService.isGoogleApiClientConnected()) {
@@ -452,7 +452,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             moveTaskToBack(true);
             finish();
         } else {
-            Toast.makeText(getBaseContext(), "Press once again to exit", Toast.LENGTH_SHORT).show();
+            getToastMessage("Press once again to exit");
             back_pressed = System.currentTimeMillis();
         }
     }
@@ -462,4 +462,8 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void getToastMessage(String message) {
+
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
 }

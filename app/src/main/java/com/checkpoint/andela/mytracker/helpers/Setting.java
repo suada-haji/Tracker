@@ -16,7 +16,6 @@ import com.checkpoint.andela.mytracker.R;
  * Created by suadahaji.
  */
 public class Setting {
-    private static final String TAG = "Settings";
     private Context context;
     private ConnectivityManager connectivityManager;
     private NetworkInfo networkInfo;
@@ -41,7 +40,7 @@ public class Setting {
 
     public String getSettings() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getString(Constants.DURATION_KEY, "0:9");
+        return preferences.getString(Constants.DURATION_KEY, "0:5");
     }
 
     public boolean checkOnline() {
