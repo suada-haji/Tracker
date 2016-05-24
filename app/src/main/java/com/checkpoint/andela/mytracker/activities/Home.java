@@ -75,6 +75,10 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+        if( getIntent().getBooleanExtra("Exit me", false)){
+            finish();
+            return;
+        }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState != null) {
@@ -409,28 +413,9 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         return true;
     }
 
-    private static long back_pressed;
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(back_pressed + 2000 > System.currentTimeMillis()) {
-            moveTaskToBack(true);
-            finish();
-        } else {
-            getToastMessage("Press once again to exit");
-            back_pressed = System.currentTimeMillis();
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void getToastMessage(String message) {
-
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
     public void resetTimer() {

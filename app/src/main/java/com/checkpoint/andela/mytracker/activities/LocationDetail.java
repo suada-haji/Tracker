@@ -1,5 +1,6 @@
 package com.checkpoint.andela.mytracker.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,8 +36,11 @@ public class LocationDetail extends AppCompatActivity implements OnMapReadyCallb
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityLauncher.runIntent(LocationDetail.this, ListActivity.class);
-                finishActivity(1);
+                Intent intent = new Intent(LocationDetail.this, ListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Exit", true);
+                startActivity(intent);
+                finish();
             }
         });
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

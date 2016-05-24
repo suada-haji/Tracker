@@ -2,7 +2,6 @@ package com.checkpoint.andela.mytracker.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -26,12 +25,19 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_list);
+        if( getIntent().getBooleanExtra("Exit", false)){
+            finish();
+            return;
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.list_activity_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityLauncher.runIntent(ListActivity.this, Home.class);
+                Intent intent = new Intent(ListActivity.this, Home.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Exit me", true);
+                startActivity(intent);
                 finish();
             }
         });
@@ -53,9 +59,6 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
             case R.id.list_settings:
                ActivityLauncher.runIntent(this, PreferenceSettings.class);
                 finish();
-                return true;
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
