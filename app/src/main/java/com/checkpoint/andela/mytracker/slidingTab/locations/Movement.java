@@ -1,7 +1,13 @@
 package com.checkpoint.andela.mytracker.slidingTab.locations;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -11,9 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.checkpoint.andela.mytracker.R;
+import com.checkpoint.andela.mytracker.activities.LocationDetail;
 import com.checkpoint.andela.mytracker.adapters.DateListAdapter;
 import com.checkpoint.andela.mytracker.helpers.DBManager;
 import com.checkpoint.andela.mytracker.helpers.TrackerDbHelper;
@@ -31,6 +39,8 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     private ListView listView;
     private ArrayList<TrackerModel> trackerModelArrayList;
     private TrackerDbHelper trackerDbHelper;
+    private int trackerPosition;
+    private ArrayList<TrackerModel> databaseData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,9 +65,83 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     }
 
     public void initializeComponents() {
+        databaseData = dbManager.listAll();
+        getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
+        getListView().setDividerHeight(1);
         dateListAdapter = new DateListAdapter(getActivity(), trackerModelArrayList);
         setListAdapter(dateListAdapter);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                 trackerPosition = position;
+                    DeleteTrackDialogue td = new DeleteTrackDialogue();
+                    FragmentManager fm = getFragmentManager();
+                    td.show(fm, "Empty Trash");
+                    td.setRetainInstance(true);
+                return true;
+            }
+        });
 
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        TrackerModel model = dateListAdapter.getItem(position);
+        Intent intent = new Intent(getContext(), LocationDetail.class);
+        intent.putExtra("currentItem", model);
+        intent.putParcelableArrayListExtra("listData", databaseData);
+        startActivityForResult(intent, 10);
+
+        /*trackerPosition = position;
+        DeleteTrackDialogue td = new DeleteTrackDialogue();
+        FragmentManager fm = getFragmentManager();
+        td.show(fm, "Empty Trash");
+        td.setRetainInstance(true);*/
+    }
+
+
+    private class DeleteTrackDialogue extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder deleteNote = new AlertDialog.Builder(getActivity());
+            deleteNote.setMessage("Are you sure you want to delete this information?")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            removeData(trackerModelArrayList, dateListAdapter, trackerPosition);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dismiss();
+                        }
+                    });
+            return deleteNote.create();
+        }
+    }
+
+    public void removeData(ArrayList<TrackerModel> trackerModels, DateListAdapter listAdapter, int position) {
+        TrackerModel trackerModel = trackerModels.get(position);
+        dbManager.deleteRecordfromDB(trackerModel);
+        //cupboard().withDatabase(sqLiteDatabase).delete(NoteModel.class, noteModel.getNote_id());
+        trackerModels.remove(position);
+        listAdapter.notifyDataSetChanged();
+        reload();
+    }
+
+    public void getMapData(ArrayList<TrackerModel> trackerModels, DateListAdapter listAdapter, int position) {
+        TrackerModel trackerModel = trackerModels.get(position);
+        trackerModel.getLocation();
+        trackerModel.getCoordinates();
+
+    }
+    private void reload(){
+        Intent intent = getActivity().getIntent();
+        getActivity().finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
     }
 
     @Override
@@ -86,7 +170,7 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     public boolean onQueryTextChange(String query)
     {
         final ArrayList<TrackerModel> trackerFilter = filterSearch(trackerModelArrayList, query);
-        dateListAdapter =  new DateListAdapter(getActivity(), trackerFilter);
+        dateListAdapter = new DateListAdapter(getActivity(), trackerFilter);
         setListAdapter(dateListAdapter);
         dateListAdapter.notifyDataSetChanged();
         return true;
