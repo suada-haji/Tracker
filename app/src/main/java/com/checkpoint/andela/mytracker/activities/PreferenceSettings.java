@@ -139,4 +139,11 @@ public class PreferenceSettings extends PreferenceActivity {
     public void invalidateOptionsMenu() {
         getCompatDelegate().invalidateOptionsMenu();
     }
+
+
+    @Override
+    public void onBackPressed() {
+        ActivityLauncher.runIntent(this, Home.class);
+        finish();
+    }
 }
