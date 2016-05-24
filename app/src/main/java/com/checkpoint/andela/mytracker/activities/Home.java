@@ -20,12 +20,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.helpers.ActivityCallback;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 import com.checkpoint.andela.mytracker.helpers.ActivityTypeListener;
 import com.checkpoint.andela.mytracker.helpers.Constants;
@@ -55,19 +53,13 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     private TextView locationText;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-
-    private RelativeLayout layout;
     private boolean isRecording;
     private FloatingActionButton fab;
-
     private LocationGoogleAPIService locationGoogleAPIService;
     private ActivitiesService activitiesIntentService;
     private ActivityTypeListener listener;
-
     private Watch watch;
-
     private TimerCountDown timerCountDown;
-
     private String current_activity;
     private String initial_activity;
     private DetectedActivity detectedActivity;
@@ -196,7 +188,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         changeIcon();
         isRecording = true;
         watch.startWatch();
-        timerCountDown = new TimerCountDown(watch.getStartDuration(), 100);
+        timerCountDown = new TimerCountDown(watch.getStartDuration(), 10);
         timerCountDown.start();
     }
 
@@ -244,10 +236,11 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(locationGoogleAPIService.getGoogleAPI(), 0, pendingIntent);
+
     }
 
     private boolean ifReadyToSave() {
-        return elapsedDuration >= getDelayDuration();
+        return elapsedDuration >= getDelayDuration() && current_activity.equals("Standing Still") && !location.equals("") && !location.equals("Unknown Location") ;
     }
 
     public long getDelayDuration() {
@@ -318,20 +311,16 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         public void onReceive(Context context, Intent intent) {
             detectedActivity = intent.getParcelableExtra(Constants.STRING_EXTRA);
             current_activity = getDetectedActivity(detectedActivity.getType());
-            if (isSignificant(detectedActivity)) {
-                if (initial_activity == null) {
-                    initial_activity = current_activity;
-                }
-                if (hasActivityChanged(initial_activity, current_activity)) {
-                    if (ifReadyToSave()) {
-                        insertRecord(getTrackerModel());
-                    }
-                    resetTimer();
-
-                } else {
-                    return;
-                }
+            if (initial_activity == null) {
+                initial_activity = current_activity;
             }
+            if (hasActivityChanged(initial_activity, current_activity)) {
+                activityText.setText(current_activity);
+                resetTimer();
+            } else {
+                return;
+            }
+
             if(isRecording) {
                 activityText.setText(current_activity);
             }
@@ -340,34 +329,6 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
 
         public boolean hasActivityChanged(String initialActivity, String newActivity) {
             return !initialActivity.equalsIgnoreCase(newActivity);
-
-        }
-
-        private boolean isSignificant(DetectedActivity detectedActivity) {
-            int type = detectedActivity.getType();
-            switch (type) {
-                case DetectedActivity.STILL:
-                    return true;
-                case DetectedActivity.IN_VEHICLE:
-                    return true;
-                case DetectedActivity.WALKING:
-                    return true;
-
-                case DetectedActivity.ON_BICYCLE:
-                    return true;
-
-                case DetectedActivity.ON_FOOT:
-                    return false;
-
-                case DetectedActivity.UNKNOWN:
-                    return false;
-
-                case DetectedActivity.RUNNING:
-                    return true;
-
-                default:
-                    return false;
-            }
 
         }
     }
@@ -436,7 +397,6 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
 
         } if (id == R.id.nav_list) {
             ActivityLauncher.runIntent(this, ListActivity.class);
-            finish();
 
         } if (id == R.id.nav_settings) {
             ActivityLauncher.runIntent(this, PreferenceSettings.class);
@@ -470,8 +430,12 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
-
     public void resetTimer() {
+
+        elapsedDuration = watch.getElapsedDuration();
+        if (ifReadyToSave()) {
+            insertRecord(getTrackerModel());
+        }
         watch.stopWatch();
         try {
             Thread.sleep(1000);
