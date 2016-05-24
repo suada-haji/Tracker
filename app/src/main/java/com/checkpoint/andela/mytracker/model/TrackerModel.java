@@ -1,5 +1,8 @@
 package com.checkpoint.andela.mytracker.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.checkpoint.andela.mytracker.helpers.Constants;
 
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.Map;
 /**
  * Created by suadahaji.
  */
-public class TrackerModel {
+public class TrackerModel implements Parcelable{
 
 
     private int tracker_id;
@@ -88,43 +91,36 @@ public class TrackerModel {
 
         return ((hr <= 1) ? hr + " hr " : hr + " hrs ") + ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
     }
-
-    public static Map<String, ArrayList<TrackerModel>> groupByDate(ArrayList<TrackerModel> list) {
-        Map<String, ArrayList<TrackerModel>> trackerGroup = new HashMap<>();
-        for (TrackerModel trackerModel: list) {
-            String key = trackerModel.getLocation();
-            if (!trackerGroup.containsKey(key)) {
-                ArrayList<TrackerModel> places = new ArrayList<>();
-                places.add(trackerModel);
-                trackerGroup.put(key, places);
-            }
-            else {
-                trackerGroup.get(key).add(trackerModel);
-            }
-        }
-        return trackerGroup;
+    private TrackerModel(Parcel in) {
+        location = in.readString();
+        tracker_date = in.readString();
+        coordinates = in.readString();
+        duration = in.readLong();
     }
 
-    public ArrayList<TrackerModel> getPlacesByDate(ArrayList<TrackerModel> trackerModels) {
-        ArrayList<TrackerModel> listOfPlacesByDate = new ArrayList<>();
-        TrackerModel model;
-        Map<String, ArrayList<TrackerModel>> map;
-        map = groupByDate(trackerModels);
-        for (String key: map.keySet()) {
-            model = new TrackerModel();
-            model.setLocation(key);
-            model.setDuration(totalDuration(map.get(key)));
-            listOfPlacesByDate.add(model);
+    public static final Creator<TrackerModel> CREATOR = new Creator<TrackerModel>() {
+        @Override
+        public TrackerModel createFromParcel(Parcel source) {
+            return new TrackerModel(source);
         }
-        return listOfPlacesByDate;
+
+        @Override
+        public TrackerModel[] newArray(int size) {
+            return new TrackerModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public long totalDuration(ArrayList<TrackerModel> trackerModels) {
-        long value = 0;
-        for (TrackerModel model: trackerModels) {
-            value += model.getDuration();
-        }
-        return value;
-    }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(location);
+        dest.writeString(tracker_date);
+        dest.writeString(coordinates);
+        dest.writeLong(duration);
 
+    }
 }
