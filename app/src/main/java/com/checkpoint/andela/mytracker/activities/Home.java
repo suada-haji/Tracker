@@ -392,17 +392,20 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-
-        } if (id == R.id.nav_list) {
-            ActivityLauncher.runIntent(this, ListActivity.class);
-
-        } if (id == R.id.nav_settings) {
-            ActivityLauncher.runIntent(this, PreferenceSettings.class);
-            finish();
+        Class activitySwitch = null;
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                break;
+            case R.id.nav_list:
+                activitySwitch = ListActivity.class;
+                break;
+            case R.id.nav_settings:
+                activitySwitch = PreferenceSettings.class;
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
+        ActivityLauncher.runIntent(this, activitySwitch);
+        finish();
         return true;
     }
 
