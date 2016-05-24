@@ -22,7 +22,7 @@ public class LocationListAdapter extends ArrayAdapter<Places> {
 
     static class LayoutHandler {
 
-        TextView tracker_activity,tracker_location, tracker_duration;
+        TextView tracker_location, tracker_duration;
     }
 
     @Override
@@ -35,7 +35,6 @@ public class LocationListAdapter extends ArrayAdapter<Places> {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.row_date_layout, parent, false);
             layoutHandler = new LayoutHandler();
-            layoutHandler.tracker_activity = (TextView) row.findViewById(R.id.row_date_activity);
             layoutHandler.tracker_location = (TextView) row.findViewById(R.id.row_date_location);
             layoutHandler.tracker_duration = (TextView) row.findViewById(R.id.row_date_duration);
             row.setTag(layoutHandler);
