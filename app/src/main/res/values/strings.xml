@@ -14,8 +14,8 @@
     <string name="action_delay">Set Delay</string>
     <string name="preference_default">0:5</string>
     <string name="preference_key">delay_key</string>
-    <string name="preference_title">TIme Delay</string>
-    <string name="preference_summary">Minimum time set for tracked location to be recorded</string>
+    <string name="preference_title">Time Delay</string>
+    <string name="preference_summary">Set minimum time necessary for a location to be recorded</string>
 
     <string name="in_vehicle">In a vehicle</string>
     <string name="on_bicycle">On a bicycle</string>
@@ -29,7 +29,7 @@
 
 
     <string name="home">Home</string>
-    <string name="list_by_date">Date</string>
+    <string name="list_tracker_report">My Tracks</string>
     <string name="list_by_places">Places</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
@@ -45,5 +45,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_preference_settings">PreferenceSettings</string>
     <string name="title_activity_date_list">DateListActivity</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

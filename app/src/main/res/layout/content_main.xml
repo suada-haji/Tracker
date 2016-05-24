@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            tools:context=".activities.LocationDetail" />
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/map"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="0dp">
+
+        <TextView
+            android:id="@+id/detail_date_location"
+            android:text="Location: "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColor"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/detail_location_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"/>
+
+        <TextView
+            android:id="@+id/detail_duration_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Duration:"
+            android:layout_below="@id/row_date_location"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/textColor"/>
+
+        <TextView
+            android:id="@+id/detail_duration_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_marginTop="40dp"
+            android:layout_below="@id/row_date_location"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"/>
+
+        <TextView
+            android:id="@+id/detail_coordinates_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Coordinates:"
+            android:layout_below="@id/row_date_location"
+            android:layout_marginTop="70dp"
+            android:textColor="@color/textColor"/>
+
+        <TextView
+            android:id="@+id/detail_coordinates_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_below="@id/row_date_location"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"/>
+
+        <TextView
+            android:id="@+id/detail_date_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Date Tracked: "
+            android:layout_below="@id/row_date_location"
+            android:layout_marginTop="100dp"
+            android:textColor="@color/textColor"/>
+
+        <TextView
+            android:id="@+id/detail_date_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_below="@id/row_date_location"
+            android:text="1hr 20min 30 secs"
+            android:paddingRight="20dp"
+            android:layout_alignParentRight="true"/>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+
+
+</RelativeLayout>

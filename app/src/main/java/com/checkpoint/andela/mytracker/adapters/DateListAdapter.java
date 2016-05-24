@@ -34,9 +34,9 @@ public class DateListAdapter extends ArrayAdapter<TrackerModel> {
 
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.row_date_layout, parent, false);
+            row = inflater.inflate(R.layout.cardview_row_date, parent, false);
             layoutHandler = new LayoutHandler();
-            layoutHandler.tracker_activity = (TextView) row.findViewById(R.id.row_date_activity);
+            layoutHandler.tracker_activity = (TextView) row.findViewById(R.id.row_date_date);
             layoutHandler.tracker_location = (TextView) row.findViewById(R.id.row_date_location);
             layoutHandler.tracker_duration = (TextView) row.findViewById(R.id.row_date_duration);
             row.setTag(layoutHandler);

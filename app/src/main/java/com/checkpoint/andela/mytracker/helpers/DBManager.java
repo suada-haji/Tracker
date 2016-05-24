@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.text.Selection;
 import android.util.Log;
 
+import com.checkpoint.andela.mytracker.model.Places;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 
 
@@ -42,6 +43,21 @@ public class DBManager {
         } else {
             updateDataInDatabase(trackerModel.getLocation(), trackerModel.getDuration(),trackerModel.getTracker_date());
         }
+    }
+
+    public void deleteRecordfromDB(TrackerModel trackerModel) {
+        String dbQuery = "DELETE FROM " + Constants.TABLE_NAME + " WHERE " +
+                Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "' AND " +
+                Constants.TABLE_COLUMN_COORDINATES + " = '" + trackerModel.getCoordinates() + "' AND " +
+                Constants.TABLE_COLUMN_DATE + " = '" + trackerModel.getTracker_date() + "' AND " +
+                Constants.TABLE_COLUMN_DURATION + " = '" + trackerModel.getDuration() + "'";
+        trackerDbHelper.getDB().execSQL(dbQuery);
+    }
+
+    public void deleteLocationFromDB(Places trackerModel) {
+        String dbQuery = "DELETE FROM " + Constants.TABLE_NAME + " WHERE " +
+                Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "'";
+        trackerDbHelper.getDB().execSQL(dbQuery);
     }
 
     private boolean hasLocationInDB(TrackerModel trackerModel) {

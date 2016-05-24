@@ -20,7 +20,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,19 +53,13 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     private TextView locationText;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-
-    private RelativeLayout layout;
     private boolean isRecording;
     private FloatingActionButton fab;
-
     private LocationGoogleAPIService locationGoogleAPIService;
     private ActivitiesService activitiesIntentService;
     private ActivityTypeListener listener;
-
     private Watch watch;
-
     private TimerCountDown timerCountDown;
-
     private String current_activity;
     private String initial_activity;
     private DetectedActivity detectedActivity;
@@ -82,6 +75,10 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+        if( getIntent().getBooleanExtra("Exit me", false)){
+            finish();
+            return;
+        }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState != null) {
@@ -195,7 +192,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         changeIcon();
         isRecording = true;
         watch.startWatch();
-        timerCountDown = new TimerCountDown(watch.getStartDuration(), 100);
+        timerCountDown = new TimerCountDown(watch.getStartDuration(), 10);
         timerCountDown.start();
     }
 
@@ -208,7 +205,7 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
             insertRecord(getTrackerModel());
         }
         locationGoogleAPIService.disconnect();
-        ActivityLauncher.runIntent(this, ListByLocation.class);
+        ActivityLauncher.runIntent(this, ListActivity.class);
     }
 
 
@@ -243,10 +240,11 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(locationGoogleAPIService.getGoogleAPI(), 0, pendingIntent);
+
     }
 
     private boolean ifReadyToSave() {
-        return elapsedDuration >= getDelayDuration();
+        return elapsedDuration >= getDelayDuration() && current_activity.equals("Standing Still") && !location.equals("") && !location.equals("Unknown Location") ;
     }
 
     public long getDelayDuration() {
@@ -317,54 +315,24 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         public void onReceive(Context context, Intent intent) {
             detectedActivity = intent.getParcelableExtra(Constants.STRING_EXTRA);
             current_activity = getDetectedActivity(detectedActivity.getType());
-            if (isSignificant(detectedActivity)) {
-                if (initial_activity == null) {
-                    initial_activity = current_activity;
-                }
-                if (hasActivityChanged(initial_activity, current_activity)) {
-                    if (ifReadyToSave()) {
-                        insertRecord(getTrackerModel());
-                        watch.stopWatch();
-                    }
-                } else {
-                    return;
-                }
+            if (initial_activity == null) {
+                initial_activity = current_activity;
             }
+            if (hasActivityChanged(initial_activity, current_activity)) {
+                activityText.setText(current_activity);
+                resetTimer();
+            } else {
+                return;
+            }
+
             if(isRecording) {
                 activityText.setText(current_activity);
             }
         }
 
+
         public boolean hasActivityChanged(String initialActivity, String newActivity) {
             return !initialActivity.equalsIgnoreCase(newActivity);
-
-        }
-
-        private boolean isSignificant(DetectedActivity detectedActivity) {
-            int type = detectedActivity.getType();
-            switch (type) {
-                case DetectedActivity.STILL:
-                    return true;
-                case DetectedActivity.IN_VEHICLE:
-                    return true;
-                case DetectedActivity.WALKING:
-                    return true;
-
-                case DetectedActivity.ON_BICYCLE:
-                    return true;
-
-                case DetectedActivity.ON_FOOT:
-                    return false;
-
-                case DetectedActivity.UNKNOWN:
-                    return false;
-
-                case DetectedActivity.RUNNING:
-                    return true;
-
-                default:
-                    return false;
-            }
 
         }
     }
@@ -428,33 +396,21 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-
-        } if (id == R.id.nav_date) {
-            ActivityLauncher.runIntent(this, ListByLocation.class);
-            finish();
-
-        } if (id == R.id.nav_settings) {
-            ActivityLauncher.runIntent(this, DateListActivity.class);
-            finish();
+        Class activitySwitch = null;
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                break;
+            case R.id.nav_list:
+                activitySwitch = ListActivity.class;
+                break;
+            case R.id.nav_settings:
+                activitySwitch = PreferenceSettings.class;
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
+        ActivityLauncher.runIntent(this, activitySwitch);
+        finish();
         return true;
-    }
-
-    private static long back_pressed;
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(back_pressed + 2000 > System.currentTimeMillis()) {
-            moveTaskToBack(true);
-            finish();
-        } else {
-            getToastMessage("Press once again to exit");
-            back_pressed = System.currentTimeMillis();
-        }
     }
 
     @Override
@@ -462,8 +418,18 @@ public class Home extends AppCompatActivity implements  NavigationView.OnNavigat
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void getToastMessage(String message) {
+    public void resetTimer() {
 
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        elapsedDuration = watch.getElapsedDuration();
+        if (ifReadyToSave()) {
+            insertRecord(getTrackerModel());
+        }
+        watch.stopWatch();
+        try {
+            Thread.sleep(1000);
+            watch.startWatch();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -42,14 +42,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginBottom="39dp"
-                android:src="@drawable/clock" />
+                android:src="@drawable/clock"
+                android:layout_centerInParent="true"/>
 
             <LinearLayout
                 android:id="@+id/digital_clock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="280dp"
+                android:layout_marginTop="290dp"
                 android:orientation="horizontal"
                 android:padding="15dp">
 
@@ -63,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=":"
-                    android:textSize="54sp" />
+                    android:textSize="50sp" />
                 <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
                     android:id="@+id/minute_timer_text"
                     android:layout_width="wrap_content"
@@ -74,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=":"
-                    android:textSize="54sp" />
+                    android:textSize="50sp" />
                 <com.checkpoint.andela.mytracker.helpers.CustomTextViewFont
                     android:id="@+id/second_timer_text"
                     android:layout_width="wrap_content"
@@ -134,23 +135,20 @@
                     android:textColor="@color/textColor"
                     android:textStyle="normal" />
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/home_fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:src="@drawable/ic_media_play"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:onClick="record"/>
-
 
             </RelativeLayout>
 
 
         </RelativeLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_media_play"
+            android:onClick="record"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
