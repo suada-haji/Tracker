@@ -45,6 +45,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_preference_settings">PreferenceSettings</string>
     <string name="title_activity_date_list">DateListActivity</string>
-    <string name="title_activity_abcd">abcd</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>
