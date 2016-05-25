@@ -2,8 +2,6 @@ package com.checkpoint.andela.mytracker.helpers;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.text.Selection;
-import android.util.Log;
 
 import com.checkpoint.andela.mytracker.model.Places;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
@@ -26,7 +24,6 @@ public class DBManager {
             Constants.TABLE_COLUMN_DATE
     };
 
-
     public  DBManager(TrackerDbHelper trackerDbHelper) {
         this.trackerDbHelper = trackerDbHelper;
     }
@@ -38,7 +35,6 @@ public class DBManager {
             contentValues.put(Constants.TABLE_COLUMN_DATE, trackerModel.getTracker_date());
             contentValues.put(Constants.TABLE_COLUMN_COORDINATES, trackerModel.getCoordinates());
             contentValues.put(Constants.TABLE_COLUMN_DURATION, trackerModel.getDuration());
-            Log.e("Suada", "Location: " + trackerModel.getLocation() + " \nDate: " + trackerModel.getTracker_date() + "\nCoordinates : " + trackerModel.getCoordinates() + "\nTrackerModel " + "\nDuration:  " + trackerModel.getDuration());
             trackerDbHelper.getDB().insert(Constants.TABLE_NAME, null, contentValues);
         } else {
             updateDataInDatabase(trackerModel.getLocation(), trackerModel.getDuration(),trackerModel.getTracker_date());
@@ -128,13 +124,6 @@ public class DBManager {
         String[] arguments = { String.valueOf(id)};
         String orderBy = Constants.TABLE_COLUMN_ID;
         return getFromDB(dataSelection, arguments, orderBy);
-    }
-
-    public ArrayList<TrackerModel> listByDate(String dateTime, Selection selection) {
-        String dataSelection = Constants.TABLE_COLUMN_DATE + " = ?";
-        String[] dataArguments = {dateTime};
-        String order = Constants.TABLE_COLUMN_ID;
-        return queryDatabase(dataSelection, dataArguments, null, order);
     }
 
     public ArrayList<TrackerModel> listAll() {

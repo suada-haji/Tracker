@@ -21,7 +21,6 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.checkpoint.andela.mytracker.R;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
