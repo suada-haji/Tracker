@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.checkpoint.andela.mytracker.R;
+import com.checkpoint.andela.mytracker.adapters.ViewPagerAdapter;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 import com.checkpoint.andela.mytracker.slidingTab.slider.SlidingTabLayout;
 
