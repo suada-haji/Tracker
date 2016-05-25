@@ -21,9 +21,6 @@ public class ActivitiesIntentService extends IntentService {
 
     private static final String TAG = "ActivitiesIntentService";
 
-
-    /** the constructor is required. It calls the super IntentService(String)
-     * constructor with the name of a worker thread*/
     public ActivitiesIntentService() {
         super(TAG);
     }

@@ -36,7 +36,6 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
 
     private DateListAdapter dateListAdapter;
     private DBManager dbManager;
-    private ListView listView;
     private ArrayList<TrackerModel> trackerModelArrayList;
     private TrackerDbHelper trackerDbHelper;
     private int trackerPosition;
@@ -74,14 +73,10 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                  trackerPosition = position;
-                    DeleteTrackDialogue td = new DeleteTrackDialogue();
-                    FragmentManager fm = getFragmentManager();
-                    td.show(fm, "Empty Trash");
-                    td.setRetainInstance(true);
+                    deleteTrackDialogue();
                 return true;
             }
         });
-
     }
 
     @Override
@@ -92,18 +87,10 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
         intent.putExtra("currentItem", model);
         intent.putParcelableArrayListExtra("listData", databaseData);
         startActivityForResult(intent, 10);
-
-        /*trackerPosition = position;
-        DeleteTrackDialogue td = new DeleteTrackDialogue();
-        FragmentManager fm = getFragmentManager();
-        td.show(fm, "Empty Trash");
-        td.setRetainInstance(true);*/
     }
 
 
-    private class DeleteTrackDialogue extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+    private void deleteTrackDialogue() {
             AlertDialog.Builder deleteNote = new AlertDialog.Builder(getActivity());
             deleteNote.setMessage("Are you sure you want to delete this information?")
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -115,28 +102,20 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dismiss();
+                            dialog.dismiss();
                         }
                     });
-            return deleteNote.create();
-        }
+        deleteNote.show();
     }
 
     public void removeData(ArrayList<TrackerModel> trackerModels, DateListAdapter listAdapter, int position) {
         TrackerModel trackerModel = trackerModels.get(position);
         dbManager.deleteRecordfromDB(trackerModel);
-        //cupboard().withDatabase(sqLiteDatabase).delete(NoteModel.class, noteModel.getNote_id());
         trackerModels.remove(position);
         listAdapter.notifyDataSetChanged();
         reload();
     }
 
-    public void getMapData(ArrayList<TrackerModel> trackerModels, DateListAdapter listAdapter, int position) {
-        TrackerModel trackerModel = trackerModels.get(position);
-        trackerModel.getLocation();
-        trackerModel.getCoordinates();
-
-    }
     private void reload(){
         Intent intent = getActivity().getIntent();
         getActivity().finish();
@@ -186,7 +165,5 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
             }
         }
         return filteredSearch;
-
     }
-
 }
