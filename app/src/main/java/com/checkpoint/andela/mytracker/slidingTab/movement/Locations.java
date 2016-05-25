@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.adapters.DateListAdapter;
 import com.checkpoint.andela.mytracker.adapters.LocationListAdapter;
 import com.checkpoint.andela.mytracker.helpers.DBManager;
 import com.checkpoint.andela.mytracker.helpers.TrackerDbHelper;
@@ -76,31 +75,29 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         placePosition = position;
-        DeleteNoteDialogue td = new DeleteNoteDialogue();
-        FragmentManager fm = getFragmentManager();
-        td.show(fm, "Empty Trash");
-        td.setRetainInstance(true);
+        deleteItem();
     }
 
-    private class DeleteNoteDialogue extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder deleteNote = new AlertDialog.Builder(getActivity());
-            deleteNote.setMessage("Are you sure you want to delete this location?")
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeData(placesArrayList, locationListAdapter, placePosition);
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dismiss();
-                        }
-                    });
-            return deleteNote.create();
-        }
+
+
+    private void deleteItem() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Delete");
+
+        alert.setMessage("Do you want to delete this location?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                removeData(placesArrayList, locationListAdapter, placePosition);
+            }
+        });
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 
     public void removeData(ArrayList<Places> placesArrayList1, LocationListAdapter listAdapter, int position) {
