@@ -5,7 +5,7 @@ My Tracker is an app that tracks the user’s movement and records any position 
 ### Features
 * Start and stop tracking
 * Customize the minimum time necessary for a location to be recorded
-* Store the location sing GPS coordinates
+* Store the location using GPS coordinates
 * List locations by day
 * Gives an aggregate of time spent at each location
 
