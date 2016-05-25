@@ -103,7 +103,7 @@ public class Setting {
     public void requestGooglePlayServices() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.common_google_play_services_enable_title)
-                .setPositiveButton("My Tracker won\\'t work unless you enable Google Play services.", new DialogInterface.OnClickListener() {
+                .setPositiveButton("My Tracker will not work unless you enable Google Play services.", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
