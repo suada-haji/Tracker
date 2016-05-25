@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "636823758097",
+    "project_id": "mytracker-1313"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636823758097:android:eb8e7066f4e934ce",
+        "android_client_info": {
+          "package_name": "com.checkpoint.andela.mytracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636823758097-rdvrov1kn7e9gl5fjbftm1phqgglphhb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.checkpoint.andela.mytracker",
+            "certificate_hash": "8F14EAE675262779B9EA4A3FD8FCC7F60CE1B7AD"
+          }
+        },
+        {
+          "client_id": "636823758097-3o1arndipfnd8upkhfts4vd7k4ee19s8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy31KjcWYcTptuVDUf5xoCBkoAfVVnJ14"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

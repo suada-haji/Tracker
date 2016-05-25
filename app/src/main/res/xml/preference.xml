@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.checkpoint.andela.mytracker.helpers.PreferenceActivitySettings
+        android:key="@string/preference_key"
+        android:title="@string/preference_title"
+        android:summary="@string/preference_summary"
+        android:defaultValue="0:5"/>
+</PreferenceScreen>
