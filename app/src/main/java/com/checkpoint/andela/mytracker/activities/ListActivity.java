@@ -25,19 +25,12 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_list);
-        if( getIntent().getBooleanExtra("Exit", false)){
-            finish();
-            return;
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.list_activity_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListActivity.this, Home.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("Exit me", true);
-                startActivity(intent);
+                ActivityLauncher.runIntent(ListActivity.this, Home.class);
                 finish();
             }
         });
@@ -67,8 +60,9 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public void onBackPressed() {
-        ActivityLauncher.runIntent(this, Home.class);
+        ActivityLauncher.runIntent(ListActivity.this, Home.class);
         finish();
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.checkpoint.andela.mytracker.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.checkpoint.andela.mytracker.R;
+import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,10 +36,7 @@ public class LocationDetail extends AppCompatActivity implements OnMapReadyCallb
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LocationDetail.this, ListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("Exit", true);
-                startActivity(intent);
+                ActivityLauncher.runIntent(LocationDetail.this, ListActivity.class);
                 finish();
             }
         });
@@ -74,4 +71,10 @@ public class LocationDetail extends AppCompatActivity implements OnMapReadyCallb
        mMap.addMarker(new MarkerOptions().position(coordinate).title(location)).setVisible(true);
        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f));
    }
+
+    @Override
+    public void onBackPressed() {
+        ActivityLauncher.runIntent(LocationDetail.this, ListActivity.class);
+        finish();
+    }
 }

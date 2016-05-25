@@ -9,6 +9,7 @@ import android.content.Intent;
 public class ActivityLauncher {
     public static void runIntent(Context context, Class<?> activityClass) {
         Intent intent = new Intent(context, activityClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
