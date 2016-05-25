@@ -1,47 +1,18 @@
 package com.checkpoint.andela.mytracker.activities;
 
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.checkpoint.andela.mytracker.R;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
-import com.checkpoint.andela.mytracker.helpers.ActivityTypeListener;
 import com.checkpoint.andela.mytracker.helpers.Constants;
-import com.checkpoint.andela.mytracker.helpers.CustomTextViewFont;
-import com.checkpoint.andela.mytracker.helpers.DBManager;
-import com.checkpoint.andela.mytracker.helpers.DurationTime;
-import com.checkpoint.andela.mytracker.helpers.Setting;
 import com.checkpoint.andela.mytracker.helpers.TrackView;
-import com.checkpoint.andela.mytracker.helpers.TrackerDbHelper;
-import com.checkpoint.andela.mytracker.helpers.Watch;
-import com.checkpoint.andela.mytracker.model.TrackerModel;
-import com.checkpoint.andela.mytracker.services.LocationGoogleAPIService;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.ActivityRecognition;
-import com.google.android.gms.location.DetectedActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Home extends TrackView implements  NavigationView.OnNavigationItemSelectedListener{
     private Toolbar toolbar;
@@ -68,7 +39,6 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
         initializeComponents();
         initializeValues();
     }
-
 
     public void initializeComponents() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -103,4 +73,25 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
     }
 
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putLong(Constants.ELAPSED_TIME, elapsedDuration);
+        outState.putString(Constants.START_ACTIVITY, initial_activity);
+        outState.putString(Constants._ACTIVITY, current_activity);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        elapsedDuration = savedInstanceState.getLong(Constants.ELAPSED_TIME);
+        initial_activity = savedInstanceState.getString(Constants.START_ACTIVITY);
+        current_activity = savedInstanceState.getString(Constants._ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

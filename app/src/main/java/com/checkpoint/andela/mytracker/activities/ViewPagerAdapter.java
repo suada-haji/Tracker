@@ -36,7 +36,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return Title[position];
     }
-    // This method return the Number of tabs for the tabs Strip
     @Override
     public int getCount() {
         return NumbofTabs;

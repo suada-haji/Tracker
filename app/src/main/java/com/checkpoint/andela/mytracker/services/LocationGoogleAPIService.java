@@ -24,8 +24,6 @@ import com.google.android.gms.location.LocationServices;
  */
 public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
-    private static final String TAG = "LocationGoogleAPIService";
-
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private Activity activity;
@@ -68,8 +66,6 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
     }
-
-
 
     @Override
     public void onConnectionSuspended(int i) {

@@ -6,26 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.activities.Home;
 import com.checkpoint.andela.mytracker.activities.ListActivity;
-import com.checkpoint.andela.mytracker.activities.PreferenceSettings;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 import com.checkpoint.andela.mytracker.services.LocationGoogleAPIService;
 import com.google.android.gms.common.api.ResultCallback;
@@ -41,7 +32,6 @@ import java.util.Date;
  */
 public class TrackView  extends AppCompatActivity implements ResultCallback<Status> {
 
-    private static final String TAG = "TrackerView";
     private CustomTextViewFont hour;
     private CustomTextViewFont minute;
     private CustomTextViewFont second;
@@ -65,8 +55,6 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
     private String activity;
     private Date date;
     private SimpleDateFormat simpleDateFormat;
-
-
 
     public void initializeValues() {
         activitiesIntentService = new ActivitiesService();
@@ -342,32 +330,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
         return model;
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putLong(Constants.ELAPSED_TIME, elapsedDuration);
-        outState.putString(Constants.START_ACTIVITY, initial_activity);
-        outState.putString(Constants._ACTIVITY, current_activity);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        elapsedDuration = savedInstanceState.getLong(Constants.ELAPSED_TIME);
-        initial_activity = savedInstanceState.getString(Constants.START_ACTIVITY);
-        current_activity = savedInstanceState.getString(Constants._ACTIVITY);
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     public void resetTimer() {
-
         elapsedDuration = watch.getElapsedDuration();
         if (ifReadyToSave()) {
             insertRecord(getTrackerModel());
@@ -380,17 +343,5 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

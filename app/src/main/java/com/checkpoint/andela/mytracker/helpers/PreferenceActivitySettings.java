@@ -99,8 +99,6 @@ public class PreferenceActivitySettings extends DialogPreference implements Pref
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
-
-
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         setSummary(getDurationTime(newValue.toString()).timeToString());

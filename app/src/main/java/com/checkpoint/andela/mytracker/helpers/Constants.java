@@ -25,9 +25,6 @@ public class Constants {
     public static final String DIALOG_TITLE = "Tracking Time";
     public static final String DURATION_KEY = "delay_key";
 
-    public static final String NOTIFIER = "Notifier";
-    public static final int NOTIFICATION_ID = 1;
-    public static final String NOTIFICATION_TITLE = "Tracking in Progress";
 
     public static final int MILLISECONDS = 1000;
     public static final int MINUTES_TO_MILLISECONDS = 6000;
