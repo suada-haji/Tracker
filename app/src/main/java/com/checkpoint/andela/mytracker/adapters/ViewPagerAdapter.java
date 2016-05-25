@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
