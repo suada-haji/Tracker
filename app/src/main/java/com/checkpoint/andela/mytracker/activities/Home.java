@@ -25,10 +25,6 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
-        if( getIntent().getBooleanExtra("Exit me", false)){
-            finish();
-            return;
-        }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
         if (savedInstanceState != null) {
