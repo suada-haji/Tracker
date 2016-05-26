@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingTab.locations;
+package com.checkpoint.andela.mytracker.slidingTab.movement;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -72,8 +72,8 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                 trackerPosition = position;
-                    deleteTrackDialogue();
+                trackerPosition = position;
+                deleteTrackDialogue();
                 return true;
             }
         });
