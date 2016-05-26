@@ -3,12 +3,9 @@ package com.checkpoint.andela.mytracker.helpers;
 import android.content.ContentValues;
 
 import com.checkpoint.andela.mytracker.model.TrackerModel;
-import com.checkpoint.andela.mytracker.slidingTab.locations.Movement;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by suadahaji.

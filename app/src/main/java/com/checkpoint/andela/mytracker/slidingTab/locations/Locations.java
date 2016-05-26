@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingTab.movement;
+package com.checkpoint.andela.mytracker.slidingTab.locations;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

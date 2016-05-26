@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.checkpoint.andela.mytracker.slidingTab.locations.Movement;
-import com.checkpoint.andela.mytracker.slidingTab.movement.Locations;
-import com.google.android.gms.location.places.Place;
+import com.checkpoint.andela.mytracker.slidingTab.movement.Movement;
+import com.checkpoint.andela.mytracker.slidingTab.locations.Locations;
 
 /**
  * Created by suadahaji.
