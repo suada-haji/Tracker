@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingTab.slider;
+package com.checkpoint.andela.mytracker.slidingtab.slider;
 
 import android.content.Context;
 import android.graphics.Canvas;

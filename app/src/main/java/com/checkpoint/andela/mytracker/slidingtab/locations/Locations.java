@@ -1,12 +1,9 @@
-package com.checkpoint.andela.mytracker.slidingTab.locations;
+package com.checkpoint.andela.mytracker.slidingtab.locations;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
