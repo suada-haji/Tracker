@@ -1,6 +1,7 @@
 # My Tracker
 
 My Tracker is an app that tracks the user’s movement and records any position where the user stands for more than the set time. This will allow the user to know where most time is spent and to optimize their productivity.
+It's readily available in [Google Play Store](https://play.google.com/store/apps/details?id=com.checkpoint.andela.mytracker).
 
 ### Features
 * Start and stop tracking
