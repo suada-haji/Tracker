@@ -2,13 +2,11 @@ package com.checkpoint.andela.mytracker.services;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
-import com.checkpoint.andela.mytracker.helpers.ActivityTypeListener;
-import com.checkpoint.andela.mytracker.helpers.Constants;
+import com.checkpoint.andela.mytracker.helpers.LocationTypeListener;
 import com.checkpoint.andela.mytracker.model.LocationModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,7 +27,7 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
     private Activity activity;
     private double tracker_longitude;
     private double tracker_latitude;
-    private ActivityTypeListener activityTypeListener;
+    private LocationTypeListener locationTypeListener;
     private LocationModel locationModel;
     private String tracker_location;
 
@@ -51,8 +49,8 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
                 .build();
     }
 
-    public void setActivityTypeListener(ActivityTypeListener activityTypeListener) {
-        this.activityTypeListener = activityTypeListener;
+    public void setLocationTypeListener(LocationTypeListener locationTypeListener) {
+        this.locationTypeListener = locationTypeListener;
     }
 
     @Override
@@ -91,7 +89,7 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
         tracker_longitude = location.getLongitude();
         tracker_location = locationModel.getLocationName(tracker_latitude, tracker_longitude);
         if (!tracker_location.equals(null)) {
-            activityTypeListener.onActivityTypeChange(tracker_location);
+            locationTypeListener.onLocationChange(tracker_location);
         }
     }
     public GoogleApiClient getGoogleAPI () {

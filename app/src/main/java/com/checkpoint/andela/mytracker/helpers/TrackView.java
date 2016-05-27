@@ -42,7 +42,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
     private FloatingActionButton fab;
     private LocationGoogleAPIService locationGoogleAPIService;
     private ActivitiesService activitiesIntentService;
-    private ActivityTypeListener listener;
+    private LocationTypeListener listener;
     private Watch watch;
     private TimerCountDown timerCountDown;
     private String current_activity;
@@ -174,16 +174,16 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
     }
 
     public void getTrackerLocation() {
-        listener = new ActivityTypeListener() {
+        listener = new LocationTypeListener() {
             @Override
-            public void onActivityTypeChange(String name) {
+            public void onLocationChange(String name) {
                 location = name;
                 if (isRecording) {
                     locationText.setText(location);
                 }
             }
         };
-        locationGoogleAPIService.setActivityTypeListener(listener);
+        locationGoogleAPIService.setLocationTypeListener(listener);
     }
 
 
