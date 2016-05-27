@@ -68,26 +68,32 @@ public class SlidingTabStrip extends LinearLayout {
         final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
                 ? mCustomTabColorizer
                 : mDefaultTabColorizer;
+
         if (childCount > 0) {
             View selectedTitle = getChildAt(mSelectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
             int color = tabColorizer.getIndicatorColor(mSelectedPosition);
+
             if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
                 int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
+
                 if (color != nextColor) {
                     color = blendColors(nextColor, color, mSelectionOffset);
                 }
+
                 View nextTitle = getChildAt(mSelectedPosition + 1);
                 left = (int) (mSelectionOffset * nextTitle.getLeft() +
                         (1.0f - mSelectionOffset) * left);
                 right = (int) (mSelectionOffset * nextTitle.getRight() +
                         (1.0f - mSelectionOffset) * right);
             }
+
             mSelectedIndicatorPaint.setColor(color);
             canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
                     height, mSelectedIndicatorPaint);
         }
+
       canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
     }
 
@@ -103,11 +109,14 @@ public class SlidingTabStrip extends LinearLayout {
         return Color.rgb((int) r, (int) g, (int) b);
     }
     private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
+
         private int[] mIndicatorColors;
+
         @Override
         public final int getIndicatorColor(int position) {
             return mIndicatorColors[position % mIndicatorColors.length];
         }
+
         void setIndicatorColors(int... colors) {
             mIndicatorColors = colors;
         }

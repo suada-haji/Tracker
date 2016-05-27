@@ -16,12 +16,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     int NumbofTabs;
 
     public ViewPagerAdapter(FragmentManager fragmentManager, CharSequence titles[], int numbofTabs) {
+
         super(fragmentManager);
         this.Title =titles;
         this.NumbofTabs = numbofTabs;
+
     }
+
     @Override
     public Fragment getItem(int position) {
+
         switch (position) {
             case 0:
                 return new Movement();
@@ -35,6 +39,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return Title[position];
     }
+
     @Override
     public int getCount() {
         return NumbofTabs;

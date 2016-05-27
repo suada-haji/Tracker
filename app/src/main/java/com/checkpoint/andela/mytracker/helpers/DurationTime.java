@@ -55,21 +55,26 @@ public class DurationTime {
     }
 
     private String minToString() {
+
         if (min <= 0) {
             return "";
         }
+
         return (min <= 1) ? (min + " minute") : (min + " minutes");
     }
 
     public String timeToString() {
+
         if (hr <= 0 && min <= 0) {
             return "No Set Time";
         }
+
         return hrToString() + minToString();
     }
 
     @Override
     public String toString() {
+
         return (hr <= 0 && min <= 0) ? "No Value set" : hr + ":" + min;
     }
 }

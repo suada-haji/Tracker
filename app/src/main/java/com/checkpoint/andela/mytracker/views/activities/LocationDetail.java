@@ -33,13 +33,16 @@ public class LocationDetail extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.locationDetail_toolbar);
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ActivityLauncher.runIntent(LocationDetail.this, ListActivity.class);
                 finish();
             }
         });
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -62,11 +65,13 @@ public class LocationDetail extends AppCompatActivity implements OnMapReadyCallb
        mMap = googleMap;
        String[] str = coordinates.split(":");
        Double[] doubles = new Double[str.length];
+
        for (int i = 0; i < str.length; i++)
        {
            doubles[i] = Double.parseDouble(str[i]);
 
        }
+
        LatLng coordinate = new LatLng(doubles[0], doubles[1]);
        mMap.addMarker(new MarkerOptions().position(coordinate).title(location)).setVisible(true);
        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f));

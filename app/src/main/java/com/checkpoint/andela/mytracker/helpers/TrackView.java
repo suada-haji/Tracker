@@ -81,6 +81,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
 
     public void setLocationTextChange() {
         locationText.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -120,6 +121,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
         });
     }
     public void record(View view) {
+
         if (!isRecording) {
             startRecording(view);
         } else {
@@ -128,14 +130,17 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
     }
 
     public void startRecording(View view) {
+
         if (!settings.checkGPSAvailabilty()) {
             settings.requestGPSSettings();
             return;
         }
+
         if (!settings.checkOnline()) {
             settings.requestConnectivity();
             return;
         }
+
         if (!locationGoogleAPIService.isGoogleApiClientConnected()) {
             settings.requestGooglePlayServices();
             return;
@@ -155,15 +160,18 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
         isRecording = false;
         timerCountDown.cancel();
         elapsedDuration = watch.getElapsedDuration();
+
         if (ifReadyToSave()) {
             insertRecord(getTrackerModel());
         }
+
         locationGoogleAPIService.disconnect();
         ActivityLauncher.runIntent(this, ListActivity.class);
     }
 
 
     private void changeIcon() {
+
         if (!isRecording){
             fab.setImageResource(R.drawable.ic_media_pause);
             isRecording = true;
@@ -178,6 +186,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
             @Override
             public void onLocationChange(String name) {
                 location = name;
+
                 if (isRecording) {
                     locationText.setText(location);
                 }
@@ -219,6 +228,7 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
     @Override
     protected void onStop() {
         super.onStop();
+
         if (locationGoogleAPIService.isGoogleApiClientConnected()) {
             locationGoogleAPIService.disconnect();
         }
@@ -269,9 +279,11 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
         public void onReceive(Context context, Intent intent) {
             detectedActivity = intent.getParcelableExtra(Constants.STRING_EXTRA);
             current_activity = getDetectedActivity(detectedActivity.getType());
+
             if (initial_activity == null) {
                 initial_activity = current_activity;
             }
+
             if (hasActivityChanged(initial_activity, current_activity)) {
                 activityText.setText(current_activity);
                 resetTimer();
@@ -332,10 +344,13 @@ public class TrackView  extends AppCompatActivity implements ResultCallback<Stat
 
     public void resetTimer() {
         elapsedDuration = watch.getElapsedDuration();
+
         if (ifReadyToSave()) {
             insertRecord(getTrackerModel());
         }
+
         watch.stopWatch();
+
         try {
             Thread.sleep(1000);
             watch.startWatch();

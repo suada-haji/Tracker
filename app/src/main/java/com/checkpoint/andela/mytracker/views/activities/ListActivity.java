@@ -27,7 +27,9 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.content_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.list_activity_toolbar);
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ActivityLauncher.runIntent(ListActivity.this, Home.class);
@@ -48,6 +50,7 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.list_settings:
                ActivityLauncher.runIntent(this, PreferenceSettings.class);

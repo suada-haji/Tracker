@@ -52,21 +52,26 @@ public class Watch {
     public String secondsToString() {
         seconds = seconds % 60;
         secStr = String.valueOf(seconds);
+
         if(seconds == 0){
             secStr = "00";
         }
+
         if(seconds <10 && seconds > 0){
             secStr = "0"+ secStr;
         }
+
         return secStr;
     }
 
     public String minuteToString() {
         minutes = minutes % 60;
         minStr =String.valueOf(minutes);
+
         if(minutes == 0){
             minStr = "00";
         }
+
         if(minutes <10 && minutes > 0){
             minStr = "0" + minStr;
         }
@@ -76,9 +81,11 @@ public class Watch {
 
     public String hourToString() {
         hrStr = String.valueOf(hours);
+
         if(hours == 0){
             hrStr = "00";
         }
+
         if(hours < 10 && hours > 0){
             hrStr = "0" + hrStr;
         }

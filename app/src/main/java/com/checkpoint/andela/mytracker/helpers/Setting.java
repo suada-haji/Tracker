@@ -27,14 +27,17 @@ public class Setting {
     public DurationTime getDurationTime(String durationTime) {
         String[] arguments = durationTime.split(":");
         DurationTime duration = null;
+
         if (arguments.length < 2) {
             return new DurationTime(0, 5);
         }
+
         try {
             return new DurationTime(Integer.parseInt(arguments[0]), Integer.parseInt(arguments[1]));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return new DurationTime(0, 5);
     }
 
