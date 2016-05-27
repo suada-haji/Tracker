@@ -29,6 +29,7 @@ public class DBManager {
     }
 
     public void insertDataIntoDatabase(TrackerModel trackerModel) {
+
         if (!hasLocationInDB(trackerModel)) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(Constants.TABLE_COLUMN_LOCATION, trackerModel.getLocation());
@@ -42,40 +43,50 @@ public class DBManager {
     }
 
     public void deleteRecordfromDB(TrackerModel trackerModel) {
+
         String dbQuery = "DELETE FROM " + Constants.TABLE_NAME + " WHERE " +
                 Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "' AND " +
                 Constants.TABLE_COLUMN_COORDINATES + " = '" + trackerModel.getCoordinates() + "' AND " +
                 Constants.TABLE_COLUMN_DATE + " = '" + trackerModel.getTracker_date() + "' AND " +
                 Constants.TABLE_COLUMN_DURATION + " = '" + trackerModel.getDuration() + "'";
+
         trackerDbHelper.getDB().execSQL(dbQuery);
     }
 
     public void deleteLocationFromDB(Places trackerModel) {
+
         String dbQuery = "DELETE FROM " + Constants.TABLE_NAME + " WHERE " +
                 Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "'";
+
         trackerDbHelper.getDB().execSQL(dbQuery);
     }
 
     private boolean hasLocationInDB(TrackerModel trackerModel) {
+
         String dbQuery = "SELECT * FROM " + Constants.TABLE_NAME + " WHERE " +
                 Constants.TABLE_COLUMN_LOCATION + " = '" + trackerModel.getLocation() + "' AND " +
                 Constants.TABLE_COLUMN_DATE + " = '" + trackerModel.getTracker_date() + "'";
+
         Cursor cursor = trackerDbHelper.getDB().rawQuery(dbQuery, null);
+
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             duration = cursor.getLong(cursor.getColumnIndex(Constants.TABLE_COLUMN_DURATION));
             cursor.close();
             return true;
         }
+
         cursor.close();
         return false;
     }
 
     private void updateDataInDatabase(String location, Long tracker_duration, String date) {
+
         long totalDuration = tracker_duration + duration;
         String dbQuery = "UPDATE " + Constants.TABLE_NAME + " SET " + Constants.TABLE_COLUMN_DURATION + " = " + totalDuration +
                 " WHERE " +Constants.TABLE_COLUMN_LOCATION + " = '" + location + "' AND " +
                 Constants.TABLE_COLUMN_DATE + " = '" + date + "'";
+
         trackerDbHelper.getDB().execSQL(dbQuery);
     }
 
@@ -96,6 +107,7 @@ public class DBManager {
         if (!cursor.moveToNext()) {
             return null;
         }
+
         TrackerModel trackerModel = getFromCursor(cursor);
         cursor.close();
         return trackerModel;
@@ -111,9 +123,11 @@ public class DBManager {
         Cursor cursor = trackerDbHelper.getDB().query(Constants.TABLE_NAME, columns, data, dataArguments, group, null, sort);
 
         ArrayList<TrackerModel> activities = new ArrayList<>();
+
         while (cursor.moveToNext()) {
             activities.add(getFromCursor(cursor));
         }
+
         cursor.close();
 
         return activities;

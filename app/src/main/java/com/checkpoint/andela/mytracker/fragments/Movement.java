@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingtab.movement;
+package com.checkpoint.andela.mytracker.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.activities.LocationDetail;
+import com.checkpoint.andela.mytracker.views.activities.LocationDetail;
 import com.checkpoint.andela.mytracker.adapters.DateListAdapter;
 import com.checkpoint.andela.mytracker.helpers.DBManager;
 import com.checkpoint.andela.mytracker.helpers.TrackerDbHelper;
@@ -40,12 +40,14 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.movement, container, false);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
         getActivity().supportInvalidateOptionsMenu();
         setHasOptionsMenu(true);
@@ -54,6 +56,7 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     }
 
     public void getList() {
+
         trackerModelArrayList = new ArrayList<>();
         trackerDbHelper = new TrackerDbHelper(getActivity());
         dbManager = new DBManager(trackerDbHelper);
@@ -61,11 +64,13 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     }
 
     public void initializeComponents() {
+
         databaseData = dbManager.listAll();
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
         dateListAdapter = new DateListAdapter(getActivity(), trackerModelArrayList);
         setListAdapter(dateListAdapter);
+
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -78,6 +83,7 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+
         super.onListItemClick(l, v, position, id);
         TrackerModel model = dateListAdapter.getItem(position);
         Intent intent = new Intent(getContext(), LocationDetail.class);
@@ -88,24 +94,29 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
 
 
     private void deleteTrackDialogue() {
+
             AlertDialog.Builder deleteNote = new AlertDialog.Builder(getActivity());
             deleteNote.setMessage("Are you sure you want to delete this information?")
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             removeData(trackerModelArrayList, dateListAdapter, trackerPosition);
                         }
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     });
+
         deleteNote.show();
     }
 
     public void removeData(ArrayList<TrackerModel> trackerModels, DateListAdapter listAdapter, int position) {
+
         TrackerModel trackerModel = trackerModels.get(position);
         dbManager.deleteRecordfromDB(trackerModel);
         trackerModels.remove(position);
@@ -114,6 +125,7 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     }
 
     private void reload(){
+
         Intent intent = getActivity().getIntent();
         getActivity().finish();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -155,8 +167,10 @@ public class Movement extends ListFragment implements SearchView.OnQueryTextList
     private ArrayList<TrackerModel> filterSearch(ArrayList<TrackerModel> dateModelArrayList, String search){
         search = search.toLowerCase();
         final ArrayList<TrackerModel> filteredSearch = new ArrayList<>();
+
         for (TrackerModel trackModel: dateModelArrayList) {
             final String note_title = trackModel.getLocation().toLowerCase();
+
             if (note_title.contains(search)) {
                 filteredSearch.add(trackModel);
             }

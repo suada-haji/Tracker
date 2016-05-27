@@ -58,9 +58,11 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(1000);
+
         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
 
     }
@@ -88,6 +90,7 @@ public class LocationGoogleAPIService implements GoogleApiClient.ConnectionCallb
         tracker_latitude = location.getLatitude();
         tracker_longitude = location.getLongitude();
         tracker_location = locationModel.getLocationName(tracker_latitude, tracker_longitude);
+
         if (!tracker_location.equals(null)) {
             locationTypeListener.onLocationChange(tracker_location);
         }

@@ -1,6 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
-
-import junit.framework.TestCase;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import org.junit.Rule;
 import org.junit.Test;

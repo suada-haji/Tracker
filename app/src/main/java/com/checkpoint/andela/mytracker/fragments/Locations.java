@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingtab.locations;
+package com.checkpoint.andela.mytracker.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,12 +39,14 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.locations, container, false);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
         getActivity().supportInvalidateOptionsMenu();
         setHasOptionsMenu(true);
@@ -53,6 +55,7 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
     }
 
     public void getLocations() {
+
         places = new Places();
         trackerModelArrayList = new ArrayList<>();
         trackerDbHelper = new TrackerDbHelper(getActivity());
@@ -62,6 +65,7 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
     }
 
     public void initializeComponents() {
+
         getListView().setDivider(getResources().getDrawable(R.drawable.list_divider));
         getListView().setDividerHeight(1);
         locationListAdapter = new LocationListAdapter(getActivity(), placesArrayList);
@@ -70,12 +74,11 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+
         super.onListItemClick(l, v, position, id);
         placePosition = position;
         deleteItem();
     }
-
-
 
     private void deleteItem() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
@@ -88,16 +91,19 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
                 removeData(placesArrayList, locationListAdapter, placePosition);
             }
         });
+
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
+
         alert.show();
     }
 
     public void removeData(ArrayList<Places> placesArrayList1, LocationListAdapter listAdapter, int position) {
+
         Places placeModel = placesArrayList1.get(position);
         dbManager.deleteLocationFromDB(placeModel);
         placesArrayList1.remove(position);
@@ -105,6 +111,7 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
         reload();
     }
     private void reload(){
+
         Intent intent = getActivity().getIntent();
         getActivity().finish();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -146,13 +153,14 @@ public class Locations extends ListFragment implements SearchView.OnQueryTextLis
     private ArrayList<Places> filterSearch(ArrayList<Places> locationModelArrayList, String search){
         search = search.toLowerCase();
         final ArrayList<Places> filteredSearch = new ArrayList<>();
+
         for (Places noteModel: locationModelArrayList) {
             final String note_title = noteModel.getLocation().toLowerCase();
+
             if (note_title.contains(search)) {
                 filteredSearch.add(noteModel);
             }
         }
         return filteredSearch;
-
     }
 }

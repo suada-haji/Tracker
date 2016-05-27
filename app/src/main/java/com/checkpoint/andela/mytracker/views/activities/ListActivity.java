@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,7 +11,7 @@ import android.view.View;
 import com.checkpoint.andela.mytracker.R;
 import com.checkpoint.andela.mytracker.adapters.ViewPagerAdapter;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
-import com.checkpoint.andela.mytracker.slidingtab.slider.SlidingTabLayout;
+import com.checkpoint.andela.mytracker.views.slidingtab.SlidingTabLayout;
 
 public class ListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ViewPager pager;
@@ -27,7 +27,9 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.content_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.list_activity_toolbar);
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ActivityLauncher.runIntent(ListActivity.this, Home.class);
@@ -48,6 +50,7 @@ public class ListActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.list_settings:
                ActivityLauncher.runIntent(this, PreferenceSettings.class);

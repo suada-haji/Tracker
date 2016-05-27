@@ -26,6 +26,7 @@ public class LocationModel {
 
     public String getLocationName (double latitude, double longitude) {
         List<Address> addresses = null;
+
         try {
             addresses = getAddress(latitude, longitude);
         } catch (Exception e) {

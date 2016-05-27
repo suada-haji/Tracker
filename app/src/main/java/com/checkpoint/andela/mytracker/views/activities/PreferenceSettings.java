@@ -1,14 +1,11 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.LayoutRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -31,6 +28,7 @@ public class PreferenceSettings extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 
         ActionBar bar = getCurrentActionBar();
+
         if (bar != null) {
             bar.setDisplayHomeAsUpEnabled(true);
         }
@@ -50,29 +48,36 @@ public class PreferenceSettings extends PreferenceActivity {
     }
 
     private AppCompatDelegate getCompatDelegate() {
+
         if (compatDelegate == null) {
             compatDelegate = AppCompatDelegate.create(this, null);
         }
+
         return compatDelegate;
     }
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
+
         if (item.getItemId() == android.R.id.home && !super.onMenuItemSelected(featureId, item)){
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
+
        return super.onMenuItemSelected(featureId, item);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+
         super.onPostCreate(savedInstanceState);
         getCompatDelegate().onPostCreate(savedInstanceState);
         LinearLayout parent = (LinearLayout) findViewById(android.R.id.list).getParent().getParent().getParent();
         Toolbar toolbr = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, parent, false);
         parent.addView(toolbr, 0);
+
         toolbr.setNavigationOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 ActivityLauncher.runIntent(PreferenceSettings.this, Home.class);

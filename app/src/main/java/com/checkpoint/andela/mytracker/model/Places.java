@@ -18,6 +18,7 @@ public class Places {
         models = new ArrayList<>();
     }
     public Places(String Location, double longitude, double latitude, long duration, String dateTime) {
+
         this();
         location = Location;
         this.longitude = longitude;
@@ -87,6 +88,7 @@ public class Places {
         long min = rem / 60;
         long sec = (rem % 1000) % 60;
         long hr = min / 60;
+
         if (hr < 1 ){
             return ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
         }
@@ -96,8 +98,10 @@ public class Places {
 
     public static Map<String, ArrayList<TrackerModel>> groupByLocation(ArrayList<TrackerModel> list) {
         Map<String, ArrayList<TrackerModel>> trackerGroup = new HashMap<>();
+
         for (TrackerModel trackerModel: list) {
             String key = trackerModel.getLocation();
+
             if (!trackerGroup.containsKey(key)) {
                 ArrayList<TrackerModel> places = new ArrayList<>();
                 places.add(trackerModel);
@@ -115,6 +119,7 @@ public class Places {
         Places places;
         Map<String, ArrayList<TrackerModel>> map;
         map = groupByLocation(trackerModels);
+
         for (String key: map.keySet()) {
             places = new Places();
             places.setLocation(key);
@@ -122,14 +127,17 @@ public class Places {
             places.setModels(map.get(key));
             listOfPlaces.add(places);
         }
+
         return listOfPlaces;
     }
 
     public long totalDuration(ArrayList<TrackerModel> trackerModels) {
         long value = 0;
+
         for (TrackerModel model: trackerModels) {
             value += model.getDuration();
         }
+
         return value;
     }
 }

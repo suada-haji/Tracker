@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,11 +27,13 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
         setContentView(R.layout.home_layout);
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
+
         if (savedInstanceState != null) {
             elapsedDuration = savedInstanceState.getLong(Constants.ELAPSED_TIME);
             initial_activity = savedInstanceState.getString(Constants.START_ACTIVITY);
             current_activity = savedInstanceState.getString(Constants._ACTIVITY);
         }
+
         initializeComponents();
         initializeValues();
     }
@@ -51,7 +53,9 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         Class activitySwitch = null;
+
         switch (item.getItemId()) {
             case R.id.nav_home:
                 break;
@@ -62,6 +66,7 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
                 activitySwitch = PreferenceSettings.class;
                 break;
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         ActivityLauncher.runIntent(this, activitySwitch);
         finish();
@@ -71,6 +76,7 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
         outState.putLong(Constants.ELAPSED_TIME, elapsedDuration);
         outState.putString(Constants.START_ACTIVITY, initial_activity);
         outState.putString(Constants._ACTIVITY, current_activity);
@@ -79,6 +85,7 @@ public class Home extends TrackView implements  NavigationView.OnNavigationItemS
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
         super.onRestoreInstanceState(savedInstanceState);
 
         elapsedDuration = savedInstanceState.getLong(Constants.ELAPSED_TIME);

@@ -35,6 +35,7 @@ public class PreferenceActivitySettings extends DialogPreference implements Pref
 
         int hour = picker.getCurrentHour();
         int minute = picker.getCurrentMinute();
+
         if (positiveResult) {
             DurationTime duration = new DurationTime(hour, minute);
             String value = duration.toString();
@@ -48,6 +49,7 @@ public class PreferenceActivitySettings extends DialogPreference implements Pref
 
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+
         if(restorePersistedValue) {
             durationTime = getDurationTime(getPersistedString(_DEFAULT_VALUE));
         } else {
@@ -84,14 +86,17 @@ public class PreferenceActivitySettings extends DialogPreference implements Pref
     public DurationTime getDurationTime(String duration) {
         String[] arguments = duration.split(":");
         DurationTime time = null;
+
         if (arguments.length < 2) {
             return new DurationTime(0, 5);
         }
+
         try {
             return new DurationTime(Integer.parseInt(arguments[0]), Integer.parseInt(arguments[1]));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return new DurationTime(0, 5);
     }
 

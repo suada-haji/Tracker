@@ -46,6 +46,7 @@ public class LocationIntentService extends IntentService {
         } catch (IOException e) {
             errorMsg = "Service not Available";
             Log.e(ADDRESS, errorMsg);
+
         } catch (IllegalArgumentException e) {
             errorMsg = "Invalid latitude or longitude used";
             Log.e(ADDRESS, errorMsg);
@@ -53,12 +54,16 @@ public class LocationIntentService extends IntentService {
 
         // Handle case where no address was found.
         if (addressList == null || addressList.size()  == 0) {
+
             if (errorMsg.isEmpty()) {
                 errorMsg = getString(R.string.no_address_found);
                 Log.e(ADDRESS, errorMsg);
             }
+
             deliverResultToReceiver(Constants.FAILURE_RESULT, errorMsg, null);
+
         } else {
+
             Address address = addressList.get(0);
             locationAddress = address.getThoroughfare() + ", " + address.getAdminArea();
             Log.e(ADDRESS, address.toString());

@@ -85,6 +85,7 @@ public class TrackerModel implements Parcelable{
         long min = rem / 60;
         long sec = (rem % 1000) % 60;
         long hr = min / 60;
+
         if (hr < 1 ){
             return ((min <= 1) ? min + " min " : min+ " mins ") + ((sec <= 1) ? sec + "sec" : sec + "secs");
         }
@@ -99,6 +100,7 @@ public class TrackerModel implements Parcelable{
     }
 
     public static final Creator<TrackerModel> CREATOR = new Creator<TrackerModel>() {
+
         @Override
         public TrackerModel createFromParcel(Parcel source) {
             return new TrackerModel(source);
@@ -121,6 +123,5 @@ public class TrackerModel implements Parcelable{
         dest.writeString(tracker_date);
         dest.writeString(coordinates);
         dest.writeLong(duration);
-
     }
 }

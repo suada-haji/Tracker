@@ -28,12 +28,12 @@ public class ActivitiesIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
+
         if (result != null) {
             DetectedActivity activity = result.getMostProbableActivity();
             Intent i = new Intent(Constants.STRING_ACTION);
             i.putExtra(Constants.STRING_EXTRA, activity);
             LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         }
-
     }
 }

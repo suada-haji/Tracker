@@ -1,10 +1,9 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 
 import com.checkpoint.andela.mytracker.R;
