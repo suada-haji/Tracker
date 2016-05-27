@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingtab.locations;
+package com.checkpoint.andela.mytracker.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

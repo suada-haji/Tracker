@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.checkpoint.andela.mytracker.slidingtab.movement.Movement;
-import com.checkpoint.andela.mytracker.slidingtab.locations.Locations;
+import com.checkpoint.andela.mytracker.fragments.Movement;
+import com.checkpoint.andela.mytracker.fragments.Locations;
 
 /**
  * Created by suadahaji.
