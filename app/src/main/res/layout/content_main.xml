@@ -14,7 +14,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            tools:context=".activities.LocationDetail" />
+            tools:context=".views.activities.LocationDetail" />
 
 <LinearLayout
     android:layout_width="fill_parent"

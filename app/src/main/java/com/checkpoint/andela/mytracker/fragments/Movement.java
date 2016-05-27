@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.activities.LocationDetail;
+import com.checkpoint.andela.mytracker.views.activities.LocationDetail;
 import com.checkpoint.andela.mytracker.adapters.DateListAdapter;
 import com.checkpoint.andela.mytracker.helpers.DBManager;
 import com.checkpoint.andela.mytracker.helpers.TrackerDbHelper;

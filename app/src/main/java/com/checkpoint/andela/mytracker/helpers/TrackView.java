@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.checkpoint.andela.mytracker.R;
-import com.checkpoint.andela.mytracker.activities.ListActivity;
+import com.checkpoint.andela.mytracker.views.activities.ListActivity;
 import com.checkpoint.andela.mytracker.model.TrackerModel;
 import com.checkpoint.andela.mytracker.services.LocationGoogleAPIService;
 import com.google.android.gms.common.api.ResultCallback;

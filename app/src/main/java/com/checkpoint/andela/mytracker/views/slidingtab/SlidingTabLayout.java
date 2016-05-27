@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.slidingtab;
+package com.checkpoint.andela.mytracker.views.slidingtab;
 
 import android.content.Context;
 import android.graphics.Color;

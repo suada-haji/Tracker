@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

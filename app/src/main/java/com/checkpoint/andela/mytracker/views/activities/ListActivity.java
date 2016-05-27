@@ -1,4 +1,4 @@
-package com.checkpoint.andela.mytracker.activities;
+package com.checkpoint.andela.mytracker.views.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,7 +11,7 @@ import android.view.View;
 import com.checkpoint.andela.mytracker.R;
 import com.checkpoint.andela.mytracker.adapters.ViewPagerAdapter;
 import com.checkpoint.andela.mytracker.helpers.ActivityLauncher;
-import com.checkpoint.andela.mytracker.slidingtab.SlidingTabLayout;
+import com.checkpoint.andela.mytracker.views.slidingtab.SlidingTabLayout;
 
 public class ListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ViewPager pager;
