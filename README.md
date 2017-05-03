@@ -10,13 +10,11 @@ It's readily available in [Google Play Store](https://play.google.com/store/apps
 * List locations by day
 * Gives an aggregate of time spent at each location
 
-<img src="/screenshots/homescreen.png" height="30%" width="30%">
-<img src="/screenshots/navigationbarpng.png" height="30%" width="30%">
-<img src="/screenshots/locations.png" height="30%" width="30%">
-<img src="/screenshots/location_detail.png" height="30%" width="30%">
-<img src="/screenshots/movement.png" height="30%" width="30%">
-<img src="/screenshots/settings.png" height="30%" width="30%">
-<img src="/screenshots/timer_settings.png" height="30%" width="30%">
+| <img src="/screenshots/homescreen.png"> | <img src="/screenshots/navigationbarpng.png">| <img src="/screenshots/locations.png"> | <img src="/screenshots/location_detail.png"> |
+| ------------- |:-------------:|:-------------:| -----:|
+
+| <img src="/screenshots/movement.png">      | <img src="/screenshots/settings.png"> | <img src="/screenshots/timer_settings.png"> |
+| ------------- |:-------------:| -------------:|
 
 
 
